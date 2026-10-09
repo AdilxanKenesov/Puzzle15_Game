@@ -5,7 +5,7 @@
         <item name="android:windowBackground">@color/jungle</item>
     </style>
 
-    <!-- System splash: same jungle green as the in-app splash, so there is no white flash. -->
+    <!-- Tizim splash'i ilovadagi splash bilan bir xil yashil, oq ekran chaqnamasin. -->
     <style name="Theme.Puzzle15Game.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/jungle</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_splash_foreground</item>

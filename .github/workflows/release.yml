@@ -1,7 +1,7 @@
 name: Release
 
-# Push a tag like v1.0.0 (or run manually) to build a signed AAB + APK, attach them to a GitHub
-# release and, when PLAY_SERVICE_ACCOUNT_JSON is set, upload the AAB to the Play internal track.
+# v1.0.0 kabi tag push qilinganda imzolangan AAB va APK yig'iladi, GitHub Release'ga qo'shiladi,
+# PLAY_SERVICE_ACCOUNT_JSON berilgan bo'lsa AAB Play internal track'ga yuklanadi.
 on:
   push:
     tags: ['v*']

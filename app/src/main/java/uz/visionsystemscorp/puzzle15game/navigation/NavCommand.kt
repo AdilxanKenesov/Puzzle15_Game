@@ -4,12 +4,11 @@ import androidx.navigation3.runtime.NavKey
 
 sealed interface NavCommand {
     data class Push(val route: NavKey) : NavCommand
-    /** Replaces the top entry, but only while it is still [from] (when given). */
+    /** Yuqoridagi ekranni almashtiradi, lekin faqat u hali [from] bo'lsa (berilgan bo'lsa). */
     data class Replace(val route: NavKey, val from: NavKey? = null) : NavCommand
     data class ReplaceAll(val route: NavKey) : NavCommand
-    /** Pops the top entry, but only while it is still [from] (when given), so a double tap pops once. */
+    /** Yuqoridagi ekranni yopadi, faqat u hali [from] bo'lsa; ikki marta bosish bitta ekranni yopadi. */
     data class Back(val from: NavKey? = null) : NavCommand
 
-    /** Pops everything above the last [route] entry. */
     data class BackTo(val route: NavKey) : NavCommand
 }

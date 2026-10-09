@@ -16,10 +16,7 @@ private val ColorScheme = darkColorScheme(
     onSurface = Cream,
 )
 
-/**
- * Text sits on fixed-size PNG artwork, so the system font scale is pinned to 1
- * to keep labels inside their planks.
- */
+/** Matnlar o'lchami qat'iy rasmlar ustida turadi, shuning uchun tizim shrift masshtabi 1 ga qotiriladi. */
 @Composable
 fun Puzzle15Theme(content: @Composable () -> Unit) {
     val density = LocalDensity.current

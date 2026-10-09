@@ -12,7 +12,6 @@ import androidx.compose.ui.unit.dp
 import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.Bark
 import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.BodyStyle
 
-/** Paragraph text with the 2 dp hard shadow used on wooden boards. */
 @Composable
 fun ShadowedBodyText(
     text: String,

@@ -11,10 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.JungleScrim
 
-/**
- * Modal layer for [ScreenBackground]'s `overlay`: dims the whole window, system bars included,
- * swallows taps meant for the screen underneath and lays [content] out on its own artboard.
- */
+/** Butun oynani (tizim panellari ham) qoraytiradi, ostidagi ekranga bosishni to'sadi. */
 @Composable
 fun ArtboardOverlay(content: @Composable BoxScope.() -> Unit) {
     DesignFrame(

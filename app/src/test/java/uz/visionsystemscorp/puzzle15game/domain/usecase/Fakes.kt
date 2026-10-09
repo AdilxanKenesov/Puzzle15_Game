@@ -70,7 +70,6 @@ class FakeProfileRepository : ProfileRepository {
 
     override val profile: StateFlow<PlayerProfile> = state
 
-    /** What [syncName] finds in the signed-in account. */
     var remoteName: String? = null
 
     override fun setName(name: String) = state.update { it.copy(name = name) }
@@ -134,7 +133,6 @@ class FakeAuthRepository : AuthRepository {
         restores++
     }
 
-    /** What the next [deleteAccount] call without a token returns. */
     var deletion = AccountDeletion.DELETED
     val deletionTokens = mutableListOf<String?>()
 

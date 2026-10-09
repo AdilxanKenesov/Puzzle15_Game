@@ -8,9 +8,7 @@ data class MainData(
 data class SettingsData(
     val settings: UserSettings,
     val playerName: String,
-    /** Signed in with Google (a guest is not). */
     val isSignedIn: Boolean,
-    /** Any account, guest included, that can be deleted. */
     val hasAccount: Boolean,
 )
 

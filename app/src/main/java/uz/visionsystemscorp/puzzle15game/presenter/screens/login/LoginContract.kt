@@ -12,7 +12,6 @@ interface LoginContract {
         data object GoogleClicked : LoginEvent
         data object GuestClicked : LoginEvent
 
-        /** Results of the account picker the screen opened for [SideEffect.LaunchGoogleSignIn]. */
         data class GoogleTokenReceived(val idToken: String) : LoginEvent
         data object GoogleCancelled : LoginEvent
         data object GoogleFailed : LoginEvent
@@ -24,7 +23,7 @@ interface LoginContract {
     )
 
     sealed interface SideEffect {
-        /** The account picker needs an Activity, so the screen shows it. */
+        /** Akkaunt tanlash oynasiga Activity kerak, shuning uchun uni ekran ochadi. */
         data object LaunchGoogleSignIn : SideEffect
         data object ShowSignInError : SideEffect
     }

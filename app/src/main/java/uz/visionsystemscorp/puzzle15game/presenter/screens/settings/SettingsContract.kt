@@ -20,7 +20,6 @@ interface SettingsContract {
         data object DeleteConfirmed : SettingsEvent
         data object DeleteDismissed : SettingsEvent
 
-        /** Results of the Google sign-in the screen opened for [SideEffect.LaunchGoogleReauth]. */
         data class ReauthTokenReceived(val idToken: String) : SettingsEvent
         data object ReauthCancelled : SettingsEvent
     }
@@ -35,7 +34,7 @@ interface SettingsContract {
     )
 
     sealed interface SideEffect {
-        /** Firebase asked for a fresh Google sign-in before deleting the account. */
+        /** Firebase akkauntni o'chirishdan oldin Google bilan qayta kirishni so'radi. */
         data object LaunchGoogleReauth : SideEffect
         data object ShowDeleteError : SideEffect
     }
@@ -45,7 +44,6 @@ interface SettingsContract {
         fun openLogin()
         fun back()
 
-        /** After signing out or deleting the account the app starts over from the sign-in screen. */
         fun restartOnboarding()
     }
 }

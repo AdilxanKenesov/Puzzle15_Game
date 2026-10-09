@@ -11,10 +11,8 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import uz.visionsystemscorp.puzzle15game.R
 
 /**
- * Shows the system Google account picker. Needs an Activity context, which is why it lives in the UI layer.
- *
- * @return the ID token for Firebase Auth, or null when the player backed out.
- * @throws Exception when no account could be used (no Google account, no network, misconfiguration).
+ * Tizimning Google akkaunt tanlash oynasini ochadi. Activity context kerak, shuning uchun UI qatlamida.
+ * @return Firebase Auth uchun ID token yoki o'yinchi bekor qilsa null.
  */
 suspend fun requestGoogleIdToken(activityContext: Context): String? {
     val option = GetSignInWithGoogleOption.Builder(activityContext.getString(R.string.default_web_client_id)).build()

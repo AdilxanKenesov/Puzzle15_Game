@@ -16,11 +16,8 @@ import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.Jungle
 import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.JungleScrim
 
 /**
- * Shared root of every screen: full-bleed jungle art, an optional dark scrim and
- * the scaled [DesignFrame] that [content] is placed on.
- *
- * @param overlay drawn above everything across the whole window (not just the artboard),
- * e.g. a dialog whose scrim must also cover the system bars and letterbox areas.
+ * Barcha ekranlarning asosi: fon rasmi, ixtiyoriy qoraytirish va [DesignFrame] maketi.
+ * @param overlay butun oyna ustida chiziladi (masalan, tizim panellarini ham yopadigan dialog).
  */
 @Composable
 fun ScreenBackground(

@@ -12,12 +12,12 @@ import javax.inject.Singleton
 import kotlinx.coroutines.tasks.await
 
 /**
- * Firestore layout (see firestore.rules):
- * - `users/{uid}`: name
- * - `leaderboards/{dimension}/entries/{uid}`: name, moves, seconds — the player's best on that size
+ * Firestore tuzilishi:
+ * - `users/{uid}`: ism
+ * - `leaderboards/{o'lcham}/entries/{uid}`: ism, yurishlar, soniyalar — o'yinchining shu o'lchamdagi eng yaxshi natijasi
  *
- * Writes are fire-and-forget: Firestore queues them on disk while offline, and the rules reject
- * any result that is not an improvement.
+ * Yozuvlar natijasi kutilmay yuboriladi: internet bo'lmasa Firestore ularni diskda navbatga qo'yadi,
+ * qoidalar esa yaxshilanmagan natijani rad etadi.
  */
 @Singleton
 class FirestoreSource @Inject constructor(
@@ -30,7 +30,6 @@ class FirestoreSource @Inject constructor(
         user(uid).set(mapOf(FIELD_NAME to name, FIELD_UPDATED_AT to FieldValue.serverTimestamp())).logFailure("putName")
     }
 
-    /** Completes once the server has accepted the write (it stays queued while offline). */
     fun putBest(uid: String, dimension: Int, entry: LeaderboardEntryDto): Task<Void> =
         entries(dimension).document(uid).set(
             mapOf(
@@ -41,7 +40,6 @@ class FirestoreSource @Inject constructor(
             ),
         ).also { it.logFailure("putBest") }
 
-    /** Renames the player's existing entries; sizes they never ranked on are skipped by Firestore. */
     fun renameEntries(uid: String, name: String, dimensions: List<Int>) {
         dimensions.forEach { dimension ->
             entries(dimension).document(uid)
@@ -50,7 +48,6 @@ class FirestoreSource @Inject constructor(
         }
     }
 
-    /** Removes everything stored for [uid]; used before a guest account is abandoned. */
     suspend fun deleteAccountData(uid: String, dimensions: List<Int>) {
         db.batch().apply {
             delete(user(uid))
@@ -64,7 +61,7 @@ class FirestoreSource @Inject constructor(
     suspend fun fetchEntry(dimension: Int, uid: String): LeaderboardEntryDto? =
         entries(dimension).document(uid).get().await().toEntry()
 
-    /** Players strictly ahead of [moves]/[seconds]: fewer moves, or as many moves in less time. */
+    /** Oldinda turgan o'yinchilar: kamroq yurish yoki shuncha yurishni tezroq qilganlar. */
     suspend fun countAhead(dimension: Int, moves: Int, seconds: Long): Long {
         val fewerMoves = entries(dimension).whereLessThan(FIELD_MOVES, moves).count()
         val faster = entries(dimension).whereEqualTo(FIELD_MOVES, moves).whereLessThan(FIELD_SECONDS, seconds).count()
@@ -78,7 +75,7 @@ class FirestoreSource @Inject constructor(
 
     private fun entries(dimension: Int) = db.collection(LEADERBOARDS).document(dimension.toString()).collection(ENTRIES)
 
-    /** Needs the composite index entries(moves ASC, seconds ASC). */
+    /** entries(moves ASC, seconds ASC) composite indeksini talab qiladi. */
     private fun ranked(dimension: Int) = entries(dimension)
         .orderBy(FIELD_MOVES, Query.Direction.ASCENDING)
         .orderBy(FIELD_SECONDS, Query.Direction.ASCENDING)

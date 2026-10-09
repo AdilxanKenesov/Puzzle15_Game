@@ -8,11 +8,9 @@ import uz.visionsystemscorp.puzzle15game.domain.model.GameResult
 @Serializable
 data object SplashRoute : NavKey
 
-/** @property isOnboarding true on first launch; false when opened from Settings. */
 @Serializable
 data class LoginRoute(val isOnboarding: Boolean) : NavKey
 
-/** @property isOnboarding true on first launch; false when renaming from Settings. */
 @Serializable
 data class NameRoute(val isOnboarding: Boolean) : NavKey
 

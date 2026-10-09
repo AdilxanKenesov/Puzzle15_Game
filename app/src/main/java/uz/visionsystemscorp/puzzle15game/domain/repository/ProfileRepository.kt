@@ -9,8 +9,8 @@ interface ProfileRepository {
     fun setName(name: String)
 
     /**
-     * Adopts the name stored in the signed-in account, or uploads the local one if the account has none.
-     * Does nothing while signed out or offline.
+     * Akkauntda saqlangan ismni oladi, akkauntda ism bo'lmasa lokal ismni yuklaydi.
+     * Tizimga kirilmagan yoki internet yo'q bo'lsa hech narsa qilmaydi.
      */
     suspend fun syncName()
 
@@ -18,6 +18,5 @@ interface ProfileRepository {
 
     fun setOnboardingDone()
 
-    /** Forgets the name and onboarding, as on a fresh install. */
     fun reset()
 }

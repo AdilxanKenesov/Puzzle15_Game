@@ -42,7 +42,6 @@ private val Leaves = listOf(
     Leaf(180.dp, 24.dp, Color(0xFF5DBB3A), Color(0xFF1F5A1A), 9000, 6400),
 )
 
-/** Leaf outline from the 26×22 SVG on the Win screen. */
 private val LeafPath = Path().apply {
     moveTo(1f, 12f)
     quadraticTo(12f, -6f, 25f, 5f)
@@ -50,7 +49,6 @@ private val LeafPath = Path().apply {
     close()
 }
 
-/** Leaves tumbling down the Win screen, in design-frame coordinates. */
 @Composable
 fun FallingLeaves(modifier: Modifier = Modifier) {
     val transition = rememberInfiniteTransition("leaves")
@@ -62,7 +60,6 @@ fun FallingLeaves(modifier: Modifier = Modifier) {
                 animationSpec = infiniteRepeatable(
                     animation = tween(leaf.durationMillis, easing = LinearEasing),
                     repeatMode = RepeatMode.Restart,
-                    // Negative CSS delay: start part-way through the fall.
                     initialStartOffset = StartOffset(leaf.delayMillis, StartOffsetType.FastForward),
                 ),
                 label = "leaf",

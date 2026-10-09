@@ -13,7 +13,6 @@ import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.LabelStyle
 
 enum class StatBoxStyle { Wood, Inset }
 
-/** "TIME 0:58" / "MOVES 130" card: wooden on Game, recessed on Win and Records. */
 @Composable
 fun StatBox(
     label: String,

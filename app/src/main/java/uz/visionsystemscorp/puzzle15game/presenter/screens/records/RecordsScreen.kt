@@ -149,7 +149,6 @@ private fun EmptyMessage(text: String) {
     }
 }
 
-/** Shared column grid of the leaderboard header, its rows and the "YOU" row. */
 @Composable
 private fun RecordColumns(
     modifier: Modifier = Modifier,
@@ -282,7 +281,6 @@ private fun PersonalGrid(stats: PersonalStats) {
 private fun Percentile(percent: Int) {
     val value = stringResource(R.string.records_percent, percent)
     val text = stringResource(R.string.records_better_than, value)
-    // Highlight just the percentage in green.
     val start = text.indexOf(value)
     Row {
         listOf(

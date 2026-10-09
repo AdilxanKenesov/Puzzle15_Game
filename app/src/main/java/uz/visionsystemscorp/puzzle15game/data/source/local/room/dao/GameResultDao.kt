@@ -13,7 +13,6 @@ interface GameResultDao {
     @Insert
     suspend fun insert(result: GameResultEntity)
 
-    /** Best game: fewest moves, then fastest. */
     @Query(
         """
         SELECT * FROM game_results

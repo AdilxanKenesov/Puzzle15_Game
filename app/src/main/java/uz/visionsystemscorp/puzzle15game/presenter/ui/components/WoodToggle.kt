@@ -32,7 +32,6 @@ import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.Leaf
 import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.LeafDark
 import uz.visionsystemscorp.puzzle15game.presenter.ui.util.LocalClickSound
 
-/** Green / brown pill switch on the Settings screen (74×38 dp). */
 @Composable
 fun WoodToggle(
     checked: Boolean,

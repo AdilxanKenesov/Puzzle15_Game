@@ -24,11 +24,6 @@ import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.BarkDeep
 import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.Cream
 import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.LuckiestGuy
 
-/**
- * Cartoon game text: Luckiest Guy fill with a thick outline and a hard drop
- * shadow, drawn as a stroke layer underneath a fill layer.
- * Pass `outlineColor = null` for the shadow-only variant used in tables.
- */
 @Composable
 fun OutlinedText(
     text: String,

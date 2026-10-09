@@ -14,7 +14,6 @@ val Nunito = FontFamily(
     Font(R.font.nunito_black, FontWeight.Black),
 )
 
-/** Small uppercase caption: "TIME", "MOVES", "PLAYER NAME". */
 val LabelStyle = TextStyle(
     fontFamily = Nunito,
     fontWeight = FontWeight.Black,
@@ -23,7 +22,6 @@ val LabelStyle = TextStyle(
     color = Sand,
 )
 
-/** Paragraph text on wooden panels. */
 val BodyStyle = TextStyle(
     fontFamily = Nunito,
     fontWeight = FontWeight.ExtraBold,

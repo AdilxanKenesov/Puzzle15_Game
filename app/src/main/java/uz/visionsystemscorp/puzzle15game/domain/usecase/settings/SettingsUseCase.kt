@@ -13,9 +13,9 @@ interface SettingsUseCase {
 
     fun setVibration(on: Boolean)
 
-    /** Signs out and resets this phone's progress, so the next player starts clean. */
+    /** Tizimdan chiqaradi va telefondagi natijalarni tozalaydi, keyingi o'yinchi toza boshlaydi. */
     suspend fun signOut()
 
-    /** Deletes the account and, once that succeeds, all local progress so the app starts over. */
+    /** Akkauntni o'chiradi; muvaffaqiyatli bo'lsa telefondagi ma'lumot ham tozalanib, ilova boshidan boshlanadi. */
     suspend fun deleteAccount(googleIdToken: String? = null): AccountDeletion
 }

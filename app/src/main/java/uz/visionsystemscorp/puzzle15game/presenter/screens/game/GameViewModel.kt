@@ -33,7 +33,7 @@ class GameViewModel @AssistedInject constructor(
     init {
         intent {
             val game = gameUseCase.start(size)
-            // A resumed game opens behind the pause overlay so the clock does not run unseen.
+            // Davom ettirilgan o'yin pauza holatida ochiladi, ko'rinmay turib vaqt ketmasin.
             reduce { state.withGame(game).copy(isPaused = game.moves > 0) }
         }
     }
@@ -42,7 +42,7 @@ class GameViewModel @AssistedInject constructor(
         when (event) {
             is GameEvent.TileClicked -> onTileClicked(event.index)
             GameEvent.ShuffleClicked -> intent {
-                // The win screen is on its way; a reshuffle now would be thrown away.
+                // G'alaba ekrani ochilyapti; hozir aralashtirish behuda bo'ladi.
                 if (state.isSolved) return@intent
                 stopTimer()
                 val game = gameUseCase.restart(size)
@@ -69,7 +69,7 @@ class GameViewModel @AssistedInject constructor(
 
     private fun onTileClicked(index: Int) = intent {
         var moved = false
-        // Slide inside reduce so two quick taps never act on the same stale board.
+        // Siljitish reduce ichida: tez ikki bosish hech qachon eskirgan taxta ustida ishlamaydi.
         reduce {
             val board = state.board?.takeIf { state.acceptsMoves }?.slide(index) ?: return@reduce state
             moved = true
@@ -80,7 +80,7 @@ class GameViewModel @AssistedInject constructor(
         if (state.isSolved) {
             stopTimer()
             val result = gameUseCase.finish(size, state.moves, state.elapsedSeconds)
-            // Let the last tile land before leaving the board.
+            // Oxirgi tosh joyiga tushishini kutib, keyin taxtadan chiqamiz.
             delay(WIN_DELAY_MILLIS)
             direction.openWin(result)
         } else {

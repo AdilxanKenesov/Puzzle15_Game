@@ -6,7 +6,7 @@ import uz.visionsystemscorp.puzzle15game.domain.model.BoardSize
 
 class GameEngine(private val random: Random = Random.Default) {
 
-    /** Random, solvable and not already solved layout. */
+    /** Tasodifiy, yechiladigan va hali yechilmagan taxta. */
     fun newBoard(size: BoardSize): Board {
         val tiles = Board.solved(size).tiles.toMutableList()
         do {
@@ -22,9 +22,9 @@ class GameEngine(private val random: Random = Random.Default) {
     }
 
     /**
-     * Odd width: solvable iff the inversion count is even.
-     * Even width: counting the blank's row from the bottom (1-based), solvable iff
-     * that row is odd and inversions are even, or the row is even and inversions are odd.
+     * Toq o'lcham: inversiyalar soni juft bo'lsa yechiladi.
+     * Juft o'lcham: bo'sh katakning pastdan hisoblangan qatori (1 dan) toq va inversiyalar juft bo'lsa,
+     * yoki qator juft va inversiyalar toq bo'lsa yechiladi.
      */
     internal fun isSolvable(tiles: List<Int>, dimension: Int): Boolean {
         val numbers = tiles.filter { it != Board.EMPTY }

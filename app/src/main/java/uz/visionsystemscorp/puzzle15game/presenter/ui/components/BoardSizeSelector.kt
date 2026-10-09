@@ -27,7 +27,6 @@ import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.LabelStyle
 import uz.visionsystemscorp.puzzle15game.presenter.ui.util.difficultyLabel
 import uz.visionsystemscorp.puzzle15game.presenter.ui.util.label
 
-/** "4×4 / CLASSIC" badge on a plank; shared by the Main selector and the Game header. */
 @Composable
 fun BoardSizeBadge(
     size: BoardSize,
@@ -53,7 +52,6 @@ fun BoardSizeBadge(
     }
 }
 
-/** ◀ 4×4 ▶ picker on the Main screen. An arrow with nowhere to go is hidden but keeps its space. */
 @Composable
 fun BoardSizeSelector(
     size: BoardSize,

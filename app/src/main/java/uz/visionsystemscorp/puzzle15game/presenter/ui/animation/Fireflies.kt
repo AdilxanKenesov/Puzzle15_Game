@@ -40,7 +40,6 @@ private val Swarm = listOf(
     Firefly(120.dp, 420.dp, 5.dp, FireflyCore, FireflyGlow, 500),
 )
 
-/** Glowing dots drifting over the jungle background, positioned in design-frame coordinates. */
 @Composable
 fun Fireflies(modifier: Modifier = Modifier) {
     val transition = rememberInfiniteTransition("fireflies")

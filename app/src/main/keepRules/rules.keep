@@ -1,13 +1,12 @@
-# R8 keep rules; AGP merges every file in src/main/keepRules.
-# Libraries (Firebase, Room, Hilt, kotlinx.serialization) ship their own consumer rules.
+# R8 qoidalari. Kutubxonalar (Firebase, Room, Hilt, kotlinx.serialization) o'z qoidalarini o'zi olib keladi.
 
-# Readable crash stack traces.
+# Crash stack trace'lari o'qiladigan bo'lsin.
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
 
-# Navigation 3 saves the back stack by serializing these route objects.
+# Navigation 3 back stack'ni shu route obyektlarini serializatsiya qilib saqlaydi.
 -keep class uz.visionsystemscorp.puzzle15game.navigation.** implements androidx.navigation3.runtime.NavKey { *; }
 
-# Credential Manager finds its Play Services provider by reflection.
+# Credential Manager Play Services provider'ini reflection orqali topadi.
 -if class androidx.credentials.CredentialManager
 -keep class androidx.credentials.playservices.** { *; }

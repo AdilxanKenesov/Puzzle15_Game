@@ -63,7 +63,7 @@ fun SettingsScreen() {
                 val event = try {
                     requestGoogleIdToken(context)?.let(SettingsEvent::ReauthTokenReceived) ?: SettingsEvent.ReauthCancelled
                 } catch (e: CancellationException) {
-                    // The screen stopped while the picker was open: let the dialog be dismissed again.
+                    // Oyna ochiq turganda ekran to'xtadi: dialog yana yopiladigan bo'lsin.
                     viewModel.onEventDispatcher(SettingsEvent.ReauthCancelled)
                     throw e
                 } catch (e: Exception) {

@@ -9,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import uz.visionsystemscorp.puzzle15game.R
 
-/** Thin wrapper over SoundPool (short effects) and MediaPlayer (looping music). Main thread only. */
+/** SoundPool (qisqa effektlar) va MediaPlayer (takrorlanuvchi musiqa). Faqat main thread'dan chaqiriladi. */
 @Singleton
 class SoundManager @Inject constructor(
     @ApplicationContext private val context: Context,

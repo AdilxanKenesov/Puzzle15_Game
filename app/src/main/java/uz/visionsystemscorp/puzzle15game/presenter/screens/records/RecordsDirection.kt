@@ -12,7 +12,7 @@ class RecordsDirection @Inject constructor(
 
     override fun backToMain() = navigator.backTo(MainRoute)
 
-    /** Starts from Main so an older game screen does not stay underneath. */
+    /** Main'dan boshlab ochiladi, ostida eski o'yin ekrani qolib ketmasin. */
     override fun openGame(size: BoardSize) {
         navigator.backTo(MainRoute)
         navigator.navigateTo(size.toGameRoute())

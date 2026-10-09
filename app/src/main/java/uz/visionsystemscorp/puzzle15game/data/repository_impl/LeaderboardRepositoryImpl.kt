@@ -37,9 +37,9 @@ class LeaderboardRepositoryImpl @Inject constructor(
 ) : LeaderboardRepository {
 
     init {
-        // On launch and whenever the account or name changes, upload any best that the server has not
-        // confirmed yet (the ledger in prefs skips the rest), so a failed or interrupted write heals itself.
-        // A new name also renames the cloud entries in place, reaching results this device does not hold.
+        // Ilova ochilganda va akkaunt yoki ism o'zgarganda server hali tasdiqlamagan natijalar yuboriladi
+        // (prefs'dagi ro'yxat qolganlarini o'tkazib yuboradi), shuning uchun uzilib qolgan yozuv o'zi tiklanadi.
+        // Yangi ism bulutdagi yozuvlarni ham qayta nomlaydi, hatto bu telefonda bo'lmagan natijalarni ham.
         scope.launch {
             var previous: Pair<String?, String>? = null
             combine(authRepository.account.map { it?.uid }, profileRepository.profile.map { it.name }, ::Pair)

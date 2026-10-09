@@ -13,7 +13,6 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import uz.visionsystemscorp.puzzle15game.R
 
-/** Round PNG button (home, settings, pause, shuffle...). The caller sets its size. */
 @Composable
 fun ImageIconButton(
     @DrawableRes icon: Int,

@@ -63,7 +63,7 @@ fun InfoScreen() {
 internal fun InfoContent(onEventDispatcher: (InfoContract.InfoEvent) -> Unit) {
     val onClose = { onEventDispatcher(InfoContract.InfoEvent.CloseClicked) }
     val uriHandler = LocalUriHandler.current
-    // No browser / mail app installed must not crash the screen.
+    // Brauzer yoki pochta ilovasi bo'lmasa ekran yiqilmasin.
     val openUri = { uri: String -> runCatching { uriHandler.openUri(uri) } }
     val telegramUrl = stringResource(R.string.info_telegram_url)
     val emailUrl = stringResource(R.string.info_email_url)

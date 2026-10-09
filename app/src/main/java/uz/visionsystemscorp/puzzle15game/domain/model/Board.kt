@@ -3,8 +3,8 @@ package uz.visionsystemscorp.puzzle15game.domain.model
 import kotlin.math.abs
 
 /**
- * Row-major tile layout; [EMPTY] marks the blank cell.
- * Solved when tiles read 1, 2, … n²-1 followed by the blank.
+ * Toshlar qatorma-qator joylashgan; [EMPTY] bo'sh katak.
+ * Toshlar 1, 2, … n²-1 tartibida va oxirida bo'sh katak bo'lsa, taxta yechilgan.
  */
 data class Board(val size: BoardSize, val tiles: List<Int>) {
 
@@ -25,7 +25,7 @@ data class Board(val size: BoardSize, val tiles: List<Int>) {
         return abs(index / dimension - empty / dimension) + abs(index % dimension - empty % dimension) == 1
     }
 
-    /** Moves the tile at [index] into the blank cell, or returns null if it is not adjacent. */
+    /** [index] dagi toshni bo'sh katakka suradi; tosh bo'sh katak yonida bo'lmasa null qaytaradi. */
     fun slide(index: Int): Board? {
         if (index !in tiles.indices || !canSlide(index)) return null
         val next = tiles.toMutableList()

@@ -138,7 +138,6 @@ private fun FloatingIslands() {
     )
 }
 
-/** Round sign in the top-left corner: "Hi, <name>!". */
 @Composable
 private fun GreetingSign(name: String, modifier: Modifier = Modifier) {
     Box(modifier.swing(degrees = 4f)) {
@@ -148,7 +147,6 @@ private fun GreetingSign(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillBounds,
         )
-        // Centred on the wooden plate between the ropes, in the game's cream-on-bark title style.
         Column(
             modifier = Modifier.place(30.dp, 40.dp, 110.dp, 58.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -163,7 +161,6 @@ private fun GreetingSign(name: String, modifier: Modifier = Modifier) {
             )
             OutlinedText(
                 text = stringResource(R.string.main_greeting_name, name),
-                // Long names shrink so they stay on the plate.
                 fontSize = if (name.length > 9) 14.sp else 19.sp,
                 color = GoldLight,
                 shadowOffset = 2.dp,

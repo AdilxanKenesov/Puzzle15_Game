@@ -24,10 +24,8 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-// Ports of the CSS keyframes in the design screens. Animated values are read
-// inside graphicsLayer {} so they only redraw the layer, never recompose.
+// Animatsiya qiymatlari graphicsLayer {} ichida o'qiladi: faqat qatlam qayta chiziladi, recomposition bo'lmaydi.
 
-/** Endless 0 → 1 → 0 ping-pong, eased like CSS `ease-in-out ... infinite alternate`. */
 private fun Modifier.pingPong(
     label: String,
     halfCycleMillis: Int,
@@ -47,21 +45,15 @@ private fun Modifier.pingPong(
     graphicsLayer { block(progress) }
 }
 
-/** Floating island: moves up by [distance] and back. */
 fun Modifier.floaty(distance: Dp = 14.dp, periodMillis: Int = 4200, delayMillis: Int = 0): Modifier =
     pingPong("floaty", periodMillis / 2, delayMillis) { translationY = -distance.toPx() * it }
 
-/**
- * Hanging sign or liana: rocks ±[degrees] around a pivot on its top edge
- * ([pivotX] 0 = left, 1 = right). Negative [degrees] starts the swing the other way.
- */
 fun Modifier.swing(degrees: Float = 3f, halfCycleMillis: Int = 2600, pivotX: Float = 0.5f): Modifier =
     pingPong("swing", halfCycleMillis, 0) {
         transformOrigin = TransformOrigin(pivotX, 0f)
         rotationZ = -degrees + 2 * degrees * it
     }
 
-/** Logo wobble: tilts ±2° while growing slightly. */
 fun Modifier.wobble(periodMillis: Int = 3200): Modifier =
     pingPong("wobble", periodMillis / 2, 0) {
         rotationZ = -2f + 4f * it
@@ -70,7 +62,6 @@ fun Modifier.wobble(periodMillis: Int = 3200): Modifier =
         scaleY = scale
     }
 
-/** Call-to-action breathing (PLAY, SAVE, REPLAY). */
 fun Modifier.pulse(maxScale: Float = 1.07f, periodMillis: Int = 1500): Modifier =
     pingPong("pulse", periodMillis / 2, 0) {
         val scale = 1f + (maxScale - 1f) * it
@@ -78,18 +69,12 @@ fun Modifier.pulse(maxScale: Float = 1.07f, periodMillis: Int = 1500): Modifier 
         scaleY = scale
     }
 
-/** Blinking "..." after LOADING. */
 fun Modifier.blink(periodMillis: Int = 1200): Modifier =
     pingPong("blink", periodMillis / 2, 0) { alpha = 0.3f + 0.7f * it }
 
-/** Arrow hint: slides horizontally by [distance] (negative = left). */
 fun Modifier.nudgeX(distance: Dp, periodMillis: Int = 1200): Modifier =
     pingPong("nudge", periodMillis / 2, 0) { translationX = distance.toPx() * it }
 
-/**
- * One-shot bouncy scale-in for dialogs, panels, tiles and stars.
- * [initialRotation] spins it into place (stars); [initialScale] > 1 stamps it down (NEW BEST).
- */
 fun Modifier.popIn(
     delayMillis: Int = 0,
     initialScale: Float = 0.2f,
@@ -111,7 +96,6 @@ fun Modifier.popIn(
     }
 }
 
-/** One-shot drop from above with a bounce (hanging signs on Login / Name / Win). */
 fun Modifier.dropIn(delayMillis: Int = 0, fromHeight: Dp = 560.dp): Modifier = composed {
     val offset = remember { Animatable(1f) }
     LaunchedEffect(Unit) {
@@ -121,7 +105,6 @@ fun Modifier.dropIn(delayMillis: Int = 0, fromHeight: Dp = 560.dp): Modifier = c
     graphicsLayer { translationY = -fromHeight.toPx() * offset.value }
 }
 
-/** One-shot slide + fade in: bottom button rows rise up, table rows slide in from the left. */
 fun Modifier.slideIn(delayMillis: Int = 0, offsetX: Dp = 0.dp, offsetY: Dp = 60.dp, durationMillis: Int = 500): Modifier =
     composed {
         val progress = remember { Animatable(0f) }

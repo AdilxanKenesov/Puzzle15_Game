@@ -13,8 +13,8 @@ import uz.visionsystemscorp.puzzle15game.domain.repository.AuthRepository
 import uz.visionsystemscorp.puzzle15game.domain.repository.ProfileRepository
 
 /**
- * The name lives on the device; Google accounts also keep a copy in `users/{uid}` so it comes back
- * after a reinstall or on another phone. Guests have nothing to restore it into, so they skip it.
+ * Ism telefonda saqlanadi. Google akkauntlarda uning nusxasi `users/{uid}` da ham turadi, shunda
+ * qayta o'rnatganda yoki boshqa telefonda ism qaytib keladi. Mehmon uchun bu kerak emas.
  */
 @Singleton
 class ProfileRepositoryImpl @Inject constructor(

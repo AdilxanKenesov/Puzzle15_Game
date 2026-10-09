@@ -21,7 +21,6 @@ class HapticManager @Inject constructor(
             context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
         }
 
-    /** A short, firm knock per tile move; 15 ms was too faint to feel on many phones. */
     fun tick() = vibrate(longArrayOf(0, 35), intArrayOf(0, 180))
 
     fun celebrate() = vibrate(longArrayOf(0, 80, 90, 80, 90, 180), intArrayOf(0, 220, 0, 220, 0, 255))

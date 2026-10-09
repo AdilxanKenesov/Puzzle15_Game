@@ -5,7 +5,6 @@ import uz.visionsystemscorp.puzzle15game.domain.model.BestResult
 import uz.visionsystemscorp.puzzle15game.domain.model.BoardSize
 import uz.visionsystemscorp.puzzle15game.domain.model.PersonalStats
 
-/** Finished games stored on this device. */
 interface RecordsRepository {
     suspend fun addResult(size: BoardSize, moves: Int, seconds: Long, stars: Int)
 

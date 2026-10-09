@@ -127,7 +127,6 @@ internal fun WinContent(
     }
 }
 
-/** Three stars, the middle one larger and raised; each spins in after the panel lands. */
 @Composable
 private fun Stars(count: Int) {
     val description = stringResource(R.string.cd_stars, count)

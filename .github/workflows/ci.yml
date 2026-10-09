@@ -24,7 +24,6 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
-      # Unit tests plus the Roborazzi screenshot tests (render-only unless recording).
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
 

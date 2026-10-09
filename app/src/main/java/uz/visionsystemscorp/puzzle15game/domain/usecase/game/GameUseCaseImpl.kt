@@ -27,7 +27,7 @@ class GameUseCaseImpl @Inject constructor(
     }
 
     override suspend fun saveProgress(game: SavedGame) {
-        // An untouched board is not worth resuming.
+        // Bitta ham yurilmagan taxtani saqlashning ma'nosi yo'q.
         if (game.moves > 0) gameRepository.save(game) else gameRepository.clear(game.board.size)
     }
 

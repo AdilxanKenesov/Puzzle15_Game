@@ -29,14 +29,10 @@ import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.Bark
 import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.Ember
 import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.Peach
 
-/** Slice insets of plank.png, in source pixels (CSS `border-image: url(plank) 80 100`). */
 private const val PlankSliceX = 100
 private const val PlankSliceY = 80
 
-/**
- * Stretchable wooden plank: corners keep their shape, edges and centre stretch.
- * Same as the CSS `.wood` class, so any size panel can reuse plank.png.
- */
+/** plank.png'ni cho'ziladigan qiladi: burchaklar o'z shaklini saqlaydi, chetlari va o'rtasi cho'ziladi. */
 fun Modifier.plankBackground(borderX: Dp = 30.dp, borderY: Dp = 26.dp): Modifier = composed {
     val image = ImageBitmap.imageResource(R.drawable.plank)
     drawBehind { drawNineSlice(image, PlankSliceX, PlankSliceY, borderX.toPx(), borderY.toPx()) }
@@ -67,7 +63,6 @@ private fun DrawScope.drawNineSlice(
     }
 }
 
-/** Wooden plank panel; content is inset by the plank border like the CSS `.wood` box. */
 @Composable
 fun WoodPanel(
     modifier: Modifier = Modifier,
@@ -85,7 +80,6 @@ fun WoodPanel(
     )
 }
 
-/** Recessed dark-wood well used for stat cards and the name input. */
 @Composable
 fun InsetBox(
     modifier: Modifier = Modifier,
@@ -98,7 +92,6 @@ fun InsetBox(
     Box(
         modifier = modifier
             .drawBehind {
-                // Light ledge under the well (CSS `box-shadow: 0 2px 0 #F2944E`).
                 drawRoundRect(
                     color = Peach,
                     topLeft = Offset(0f, 2.dp.toPx()),
@@ -113,7 +106,6 @@ fun InsetBox(
     )
 }
 
-/** CSS `filter: saturate(s) brightness(b)` for dimmed / highlighted artwork. */
 fun woodTint(saturation: Float, brightness: Float): ColorFilter =
     ColorFilter.colorMatrix(
         ColorMatrix().apply {
@@ -122,5 +114,4 @@ fun woodTint(saturation: Float, brightness: Float): ColorFilter =
         },
     )
 
-/** Duller wood for secondary buttons (guest sign-in, cancel). */
 val SecondaryWoodTint: ColorFilter = woodTint(saturation = 0.75f, brightness = 0.92f)

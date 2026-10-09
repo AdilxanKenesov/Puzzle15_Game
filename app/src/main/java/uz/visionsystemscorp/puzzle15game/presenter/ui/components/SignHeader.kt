@@ -18,10 +18,6 @@ import androidx.compose.ui.unit.sp
 import uz.visionsystemscorp.puzzle15game.R
 import uz.visionsystemscorp.puzzle15game.presenter.ui.animation.swing
 
-/**
- * Hanging wooden sign with the screen title (WELCOME!, RECORDS, SETTINGS...).
- * The text box keeps the artwork's proportions at any size, so callers only set width × height.
- */
 @Composable
 fun SignHeader(
     title: String,

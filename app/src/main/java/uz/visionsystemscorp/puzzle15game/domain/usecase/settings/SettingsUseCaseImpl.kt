@@ -21,7 +21,6 @@ class SettingsUseCaseImpl @Inject constructor(
 
     override fun observe(): Flow<SettingsData> =
         combine(profileRepository.profile, settingsRepository.settings, authRepository.account) { profile, settings, account ->
-            // A guest can still sign in with Google to keep their records.
             SettingsData(
                 settings = settings,
                 playerName = profile.name,
@@ -38,7 +37,7 @@ class SettingsUseCaseImpl @Inject constructor(
 
     override suspend fun signOut() {
         authRepository.signOut()
-        // Otherwise the next account to sign in here would publish these results as its own.
+        // Aks holda bu telefonda keyin kirgan akkaunt bu natijalarni o'z natijasi sifatida yuboradi.
         resetLocalProgress()
     }
 

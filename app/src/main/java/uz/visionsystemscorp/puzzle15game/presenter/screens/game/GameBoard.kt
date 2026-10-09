@@ -38,7 +38,6 @@ import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.Rust
 private val BoardSide = 312.dp
 private val TileGap = 6.dp
 
-/** Tiles laid out inside board.png; each tile slides to its new cell with a springy overshoot. */
 @Composable
 fun GameBoard(
     board: Board,

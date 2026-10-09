@@ -37,15 +37,10 @@ import uz.visionsystemscorp.puzzle15game.presenter.screens.win.WinContent
 import uz.visionsystemscorp.puzzle15game.presenter.screens.win.WinContract
 import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.Puzzle15Theme
 
-/**
- * Renders every screen with sample data on the JVM. `./gradlew recordRoborazziDebug` saves them to
- * docs/screenshots (used by the README and the Play listing); a plain test run only checks they render.
- *
- * 360×720 dp at xxhdpi = 1080×2160 px, a 2:1 phone shot that Google Play accepts.
- */
+/** Barcha ekranlarni namunaviy ma'lumot bilan chizadi; `./gradlew recordRoborazziDebug` ularni docs/screenshots ga saqlaydi. */
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-// A plain Application: the real one would start Firebase and sound through Hilt.
+// Oddiy Application: asl ilova Hilt orqali Firebase va ovozni ishga tushirib yuboradi.
 @Config(sdk = [35], qualifiers = "w360dp-h720dp-xxhdpi", application = Application::class)
 class ScreenshotTest {
 
@@ -53,7 +48,7 @@ class ScreenshotTest {
     val compose = createComposeRule()
 
     private fun capture(name: String, settleMillis: Long = 2_500, content: @Composable () -> Unit) {
-        // Infinite animations (fireflies, swaying signs) never go idle, so drive the clock by hand.
+        // Cheksiz animatsiyalar hech qachon to'xtamaydi, shuning uchun soatni qo'lda suramiz.
         compose.mainClock.autoAdvance = false
         compose.setContent { Puzzle15Theme { content() } }
         compose.mainClock.advanceTimeBy(settleMillis)
@@ -119,7 +114,6 @@ class ScreenshotTest {
     fun info() = capture("11_info") { InfoContent(onEventDispatcher = {}) }
 
     private fun sampleGame(): GameContract.GameUiState {
-        // Fixed seed: the same shuffled board on every run.
         val board = GameEngine(Random(15)).newBoard(BoardSize.FOUR)
         return GameContract.GameUiState(size = BoardSize.FOUR, board = board, moves = 37, elapsedSeconds = 74)
     }

@@ -5,26 +5,24 @@ import uz.visionsystemscorp.puzzle15game.domain.model.Account
 import uz.visionsystemscorp.puzzle15game.domain.model.AccountDeletion
 
 interface AuthRepository {
-    /** Null while signed out. */
     val account: StateFlow<Account?>
 
-    /** Keeps the current session if there is one, otherwise starts an anonymous one. */
     suspend fun signInAsGuest(): Result<Account>
 
     /**
-     * Upgrades a guest to the Google account behind [idToken], keeping its uid. If that Google
-     * account is already in use, the guest's cloud data is dropped and the session switches to it.
+     * Mehmonni [idToken] dagi Google akkauntga ulaydi, uid o'zgarmaydi. Bu Google akkaunt allaqachon
+     * ishlatilgan bo'lsa, mehmonning bulutdagi ma'lumoti o'chiriladi va sessiya o'sha akkauntga o'tadi.
      */
     suspend fun signInWithGoogle(idToken: String): Result<Account>
 
     suspend fun signOut()
 
     /**
-     * Removes the account and everything it stored in the cloud, then signs out.
-     * @param googleIdToken a fresh token after [AccountDeletion.NEEDS_REAUTH].
+     * Akkauntni va uning bulutdagi barcha ma'lumotini o'chiradi, keyin tizimdan chiqaradi.
+     * @param googleIdToken [AccountDeletion.NEEDS_REAUTH] dan keyin olingan yangi token.
      */
     suspend fun deleteAccount(googleIdToken: String? = null): AccountDeletion
 
-    /** Starts a guest session in the background if one was lost (e.g. first sign-in happened offline). */
+    /** Mehmon sessiyasi yo'qolgan bo'lsa (masalan, birinchi kirish internetsiz bo'lgan), uni fonda qayta ochadi. */
     fun restoreSession()
 }

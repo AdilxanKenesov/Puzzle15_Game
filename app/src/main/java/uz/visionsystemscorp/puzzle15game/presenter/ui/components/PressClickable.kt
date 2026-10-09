@@ -13,10 +13,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.semantics.Role
 import uz.visionsystemscorp.puzzle15game.presenter.ui.util.LocalClickSound
 
-/**
- * Click without ripple; the artwork shrinks while pressed instead (CSS `.press:active`)
- * and the shared click sound plays unless [playSound] is false.
- */
 fun Modifier.pressClickable(
     role: Role = Role.Button,
     enabled: Boolean = true,

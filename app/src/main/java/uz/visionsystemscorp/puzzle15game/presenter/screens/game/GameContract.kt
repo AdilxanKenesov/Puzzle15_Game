@@ -19,18 +19,15 @@ interface GameContract {
         data object HomeClicked : GameEvent
         data object SettingsClicked : GameEvent
 
-        /** The board left the screen or the app went to background. */
         data object ScreenHidden : GameEvent
     }
 
     data class GameUiState(
         val size: BoardSize = BoardSize.Default,
-        /** Null while the saved game is loading. */
         val board: Board? = null,
         val moves: Int = 0,
         val elapsedSeconds: Long = 0,
         val isPaused: Boolean = false,
-        /** Bumped on every new shuffle so the tiles replay their entrance animation. */
         val round: Int = 0,
     ) {
         val isStarted: Boolean get() = moves > 0

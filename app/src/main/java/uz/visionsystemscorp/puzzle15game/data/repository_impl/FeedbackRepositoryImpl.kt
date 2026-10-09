@@ -19,8 +19,8 @@ import uz.visionsystemscorp.puzzle15game.domain.repository.FeedbackRepository
 import uz.visionsystemscorp.puzzle15game.domain.repository.SettingsRepository
 
 /**
- * Plays effects according to the sound / vibration settings and keeps background music
- * running only while music is enabled and the app is in the foreground.
+ * Effektlarni ovoz va vibratsiya sozlamalariga qarab chaladi. Fon musiqasi faqat musiqa yoqilgan
+ * va ilova ekranda turgan paytda chaladi.
  */
 @Singleton
 class FeedbackRepositoryImpl @Inject constructor(

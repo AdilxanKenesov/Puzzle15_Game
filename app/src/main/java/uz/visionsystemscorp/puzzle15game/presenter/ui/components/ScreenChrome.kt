@@ -15,9 +15,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import uz.visionsystemscorp.puzzle15game.R
 
-// Pieces repeated across Records, Settings, Info, Login, Name and Win.
-
-/** Title sign hanging from the top edge of a sub-screen. */
 @Composable
 fun TopSign(title: String, fontSize: TextUnit) {
     SignHeader(title, Modifier.place(75.dp, (-14).dp, 240.dp, 178.dp), fontSize)
@@ -43,7 +40,6 @@ fun TopRightCloseButton(onClick: () -> Unit) {
     )
 }
 
-/** Large wooden board (panel.png) with content inset into its flat middle. */
 @Composable
 fun BoardPanel(
     modifier: Modifier = Modifier,

@@ -20,8 +20,8 @@ import uz.visionsystemscorp.puzzle15game.presenter.screens.splash.SplashScreen
 import uz.visionsystemscorp.puzzle15game.presenter.screens.win.WinScreen
 
 /**
- * Splash → (first launch) Login → Name → Main; Main → Game → Win; Main → Records / Settings / Info.
- * ViewModels navigate through [AppNavigator]; this host applies their commands to the back stack.
+ * Splash → (birinchi marta) Login → Name → Main; Main → Game → Win; Main → Records / Settings / Info.
+ * ViewModel'lar [AppNavigator] orqali buyruq yuboradi, bu host ularni back stack'ka qo'llaydi.
  */
 @Composable
 fun AppNavHost(handler: AppNavigationHandler) {
@@ -30,7 +30,7 @@ fun AppNavHost(handler: AppNavigationHandler) {
     LaunchedEffect(handler) {
         handler.commands.collect { command ->
             when (command) {
-                // Ignore a repeated push from a double tap.
+                // Ikki marta bosilganda bir xil ekran ikki marta ochilmasin.
                 is NavCommand.Push -> if (backStack.lastOrNull() != command.route) backStack.add(command.route)
                 is NavCommand.Replace -> if (command.from.isOnTop(backStack)) backStack[backStack.lastIndex] = command.route
                 is NavCommand.ReplaceAll -> backStack.resetTo(command.route)
@@ -67,7 +67,7 @@ fun AppNavHost(handler: AppNavigationHandler) {
     )
 }
 
-/** A command without a source screen always applies. */
+/** Manba ekrani berilmagan buyruq har doim bajariladi. */
 private fun NavKey?.isOnTop(backStack: NavBackStack<NavKey>): Boolean = this == null || backStack.lastOrNull() == this
 
 private fun NavBackStack<NavKey>.pop() {

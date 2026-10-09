@@ -19,7 +19,7 @@ fun SavedGame.toEntity() = SavedGameEntity(
     seconds = seconds,
 )
 
-/** Null when the stored row does not describe a valid board (e.g. corrupted data). */
+/** Saqlangan qator to'g'ri taxtani bildirmasa (masalan, buzilgan ma'lumot), null qaytaradi. */
 fun SavedGameEntity.toDomain(): SavedGame? {
     val size = BoardSize.entries.firstOrNull { it.dimension == boardDimension } ?: return null
     val tiles = tiles.split(",").mapNotNull { it.toIntOrNull() }

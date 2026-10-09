@@ -18,7 +18,6 @@ import uz.visionsystemscorp.puzzle15game.R
 
 private val DisabledTint = woodTint(saturation = 0.3f, brightness = 0.7f)
 
-/** Text button on plank.png (SAVE, RESUME, REPLAY, GOOGLE...). The caller sets its size. */
 @Composable
 fun WoodButton(
     text: String,

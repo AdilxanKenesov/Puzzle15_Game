@@ -11,7 +11,7 @@ plugins {
     alias(libs.plugins.roborazzi)
 }
 
-// Release signing comes from keystore.properties locally and from environment variables on CI.
+// Release imzosi: lokal keystore.properties dan, CI da environment o'zgaruvchilardan.
 val keystoreProperties = Properties().apply {
     val file = rootProject.file("keystore.properties")
     if (file.exists()) file.inputStream().use { load(it) }
@@ -54,7 +54,6 @@ android {
             optimization {
                 enable = true
             }
-            // Unsigned when no keystore is configured (e.g. CI on pull requests).
             signingConfig = if (releaseStoreFile != null) signingConfigs.getByName("release") else null
         }
     }
@@ -67,13 +66,11 @@ android {
         buildConfig = true
     }
     testOptions {
-        // Robolectric screenshot tests need the real resources (images, fonts).
         unitTests.isIncludeAndroidResources = true
     }
 }
 
 roborazzi {
-    // `./gradlew recordRoborazziDebug` writes the README / store screenshots here.
     outputDir.set(rootProject.file("docs/screenshots"))
 }
 

@@ -26,7 +26,6 @@ import uz.visionsystemscorp.puzzle15game.R
 private val SelectedTint = woodTint(saturation = 1f, brightness = 1.12f)
 private val IdleTint = woodTint(saturation = 0.6f, brightness = 0.8f)
 
-/** Row of plank tabs: board size (3×3 / 4×4 / 5×5) and WORLD / MY BEST on Records. */
 @Composable
 fun <T> WoodTabs(
     items: List<T>,

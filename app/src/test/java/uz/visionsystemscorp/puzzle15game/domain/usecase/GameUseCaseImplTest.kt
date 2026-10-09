@@ -73,7 +73,6 @@ class GameUseCaseImplTest {
         assertFalse(useCase.finish(BoardSize.FOUR, moves = 90, seconds = 60).isNewBest)
         assertTrue(useCase.finish(BoardSize.FOUR, moves = 90, seconds = 59).isNewBest)
         assertTrue(useCase.finish(BoardSize.FOUR, moves = 80, seconds = 99).isNewBest)
-        // Bests are per board size.
         assertTrue(useCase.finish(BoardSize.FIVE, moves = 400, seconds = 400).isNewBest)
     }
 

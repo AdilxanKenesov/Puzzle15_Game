@@ -1,7 +1,7 @@
 package uz.visionsystemscorp.puzzle15game.domain.model
 
 /**
- * @property parMoves finishing within this many moves earns three stars.
+ * @property parMoves shuncha yurishda yechilsa uchta yulduz beriladi.
  */
 enum class BoardSize(val dimension: Int, val parMoves: Int) {
     THREE(3, 40),
@@ -10,10 +10,8 @@ enum class BoardSize(val dimension: Int, val parMoves: Int) {
 
     val cellCount: Int get() = dimension * dimension
 
-    /** The next smaller size; null on the smallest. */
     fun previous(): BoardSize? = entries.getOrNull(ordinal - 1)
 
-    /** The next bigger size; null on the biggest. */
     fun next(): BoardSize? = entries.getOrNull(ordinal + 1)
 
     companion object {

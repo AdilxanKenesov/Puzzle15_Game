@@ -14,8 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Puzzle15Game">
-        <!-- Portrait on phones. Where the system ignores it (large screens, Android 16+), DesignFrame
-             scales the portrait artboard to fit, so landscape still shows the whole screen. -->
+        <!-- Telefonlarda portret. Tizim buni e'tiborsiz qoldirsa (katta ekranlar, Android 16+), DesignFrame
+             portret maketni ekranga sig'diradi. -->
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -12,7 +12,7 @@ class GameDirection @Inject constructor(
     private val navigator: AppNavigator,
 ) : GameContract.Direction {
 
-    /** Win replaces the game so Back from Win returns to Main. */
+    /** Win o'yin ekrani o'rniga ochiladi, shunda Win'dan Back bosilsa Main'ga qaytiladi. */
     override fun openWin(result: GameResult) = navigator.replaceTo(result.toWinRoute(), from = result.size.toGameRoute())
 
     override fun openSettings() = navigator.navigateTo(SettingsRoute)

@@ -59,7 +59,7 @@ class LoginViewModel @AssistedInject constructor(
         }
     }
 
-    /** First launch goes on to pick a name unless the account already brought one; otherwise back to Settings. */
+    /** Birinchi kirishda akkauntda ism bo'lmasa Name ekraniga o'tiladi; Settings'dan kelinganda orqaga qaytiladi. */
     private fun proceed(hasName: Boolean) {
         when {
             !container.stateFlow.value.isOnboarding -> direction.back()

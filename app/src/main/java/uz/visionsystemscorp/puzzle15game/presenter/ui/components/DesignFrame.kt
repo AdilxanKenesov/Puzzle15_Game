@@ -15,13 +15,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlin.math.min
 
-/** Artboard size of every screen in the design screens. */
 val DesignWidth = 390.dp
 val DesignHeight = 844.dp
 
 /**
- * Lays out [content] on a fixed 390×844 dp artboard and scales it to fit the
- * available space, so screens can use the exact dp values from the design.
+ * Kontentni dizayndagi 390×844 dp maketga joylab, ekranga sig'adigan qilib kattalashtiradi.
+ * Shunda ekranlar dizayndagi dp qiymatlaridan to'g'ridan-to'g'ri foydalanadi.
  */
 @Composable
 fun DesignFrame(modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) {
@@ -36,6 +35,5 @@ fun DesignFrame(modifier: Modifier = Modifier, content: @Composable BoxScope.() 
     }
 }
 
-/** Absolute placement on the artboard, mirroring the design's `left/top/width/height`. */
 fun Modifier.place(x: Dp, y: Dp, width: Dp, height: Dp): Modifier =
     offset(x, y).size(width, height)

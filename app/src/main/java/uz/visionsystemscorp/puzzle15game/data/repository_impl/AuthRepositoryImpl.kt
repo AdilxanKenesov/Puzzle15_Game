@@ -41,12 +41,12 @@ class AuthRepositoryImpl @Inject constructor(
     override val account: StateFlow<Account?> = state.asStateFlow()
 
     init {
-        // Sign-ins and sign-outs, including ones that finish after the screen that started them is gone.
+        // Kirish va chiqishlarni kuzatadi, hatto ularni boshlagan ekran yopilgandan keyin tugasa ham.
         auth.addAuthStateListener { state.value = it.currentUser?.toAccount() }
     }
 
-    // NonCancellable: once Firebase accepts a request it completes even if the screen that asked is
-    // gone, so the local bookkeeping (state, prefs, cleanup) has to complete as well.
+    // NonCancellable: Firebase so'rovni qabul qilgach, so'ragan ekran yopilsa ham u oxirigacha bajariladi,
+    // shuning uchun lokal ishlar (state, prefs, tozalash) ham oxirigacha bajarilishi kerak.
     override suspend fun signInAsGuest(): Result<Account> = withContext(NonCancellable) {
         runCatching { onSignedIn(auth.currentUser ?: checkNotNull(auth.signInAnonymously().await().user)) }
     }
@@ -62,8 +62,8 @@ class AuthRepositoryImpl @Inject constructor(
         return try {
             checkNotNull(current.linkWithCredential(credential).await().user)
         } catch (e: FirebaseAuthUserCollisionException) {
-            // This Google account already has its own records: abandon the guest and switch to it.
-            // The guest's local results are re-published under the Google account afterwards.
+            // Bu Google akkauntning o'z natijalari bor: mehmon akkauntdan voz kechib, shu akkauntga o'tamiz.
+            // Mehmonning telefondagi natijalari keyin Google akkaunt nomidan qayta yuboriladi.
             runCatching { firestore.deleteAccountData(current.uid, BoardSize.entries.map { it.dimension }) }
             runCatching { current.delete().await() }
             checkNotNull(auth.signInWithCredential(e.updatedCredential ?: credential).await().user)
@@ -81,17 +81,17 @@ class AuthRepositoryImpl @Inject constructor(
         val user = auth.currentUser ?: return@withContext AccountDeletion.DELETED
         try {
             if (googleIdToken != null) user.reauthenticate(GoogleAuthProvider.getCredential(googleIdToken, null)).await()
-            // Cloud data first: the security rules only let the signed-in owner delete it.
+            // Avval bulutdagi ma'lumot: qoidalar uni faqat tizimga kirgan egasiga o'chirishga ruxsat beradi.
             firestore.deleteAccountData(user.uid, BoardSize.entries.map { it.dimension })
             user.delete().await()
         } catch (e: FirebaseAuthRecentLoginRequiredException) {
-            // A guest cannot sign in again; its cloud data is already gone, so dropping the session is enough.
+            // Mehmon qayta kira olmaydi; uning bulutdagi ma'lumoti allaqachon o'chgan, sessiyani yopish yetarli.
             if (!user.isAnonymous) return@withContext AccountDeletion.NEEDS_REAUTH
         } catch (e: Exception) {
             Log.w(TAG, "Account deletion failed", e)
             return@withContext AccountDeletion.FAILED
         }
-        // A fresh install starts with onboarding, not a restored guest.
+        // Keyingi safar mehmon tiklanmasin, ilova yangidan o'rnatilgandek onboarding'dan boshlansin.
         sharedManager.signedOut = false
         auth.signOut()
         state.value = null
@@ -106,7 +106,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     private fun onSignedIn(user: FirebaseUser): Account {
         sharedManager.signedOut = false
-        // Linking a guest to Google keeps the uid, so auth listeners would not report it; publish explicitly.
+        // Mehmonni Google'ga ulash uid'ni o'zgartirmaydi va listener buni bildirmaydi, shuning uchun qo'lda yangilaymiz.
         return user.toAccount().also { state.value = it }
     }
 

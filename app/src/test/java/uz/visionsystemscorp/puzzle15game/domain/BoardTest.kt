@@ -18,7 +18,7 @@ class BoardTest {
 
     @Test
     fun `tile next to the blank slides into it`() {
-        val board = Board.solved(BoardSize.THREE) // blank at index 8
+        val board = Board.solved(BoardSize.THREE)
         val moved = board.slide(7)
         assertNotNull(moved)
         assertEquals(listOf(1, 2, 3, 4, 5, 6, 7, 0, 8), moved!!.tiles)
@@ -35,14 +35,13 @@ class BoardTest {
     fun `non adjacent tile does not move`() {
         val board = Board.solved(BoardSize.THREE)
         assertNull(board.slide(0))
-        assertNull(board.slide(4)) // diagonal
-        assertNull(board.slide(8)) // the blank itself
+        assertNull(board.slide(4))
+        assertNull(board.slide(8))
         assertNull(board.slide(42))
     }
 
     @Test
     fun `row wrap is not adjacency`() {
-        // Blank at index 3 (row 1, col 0); index 2 is row 0, col 2 — neighbours in the list, not on the board.
         val board = Board(BoardSize.THREE, listOf(1, 2, 3, 0, 4, 5, 6, 7, 8))
         assertNull(board.slide(2))
         assertNotNull(board.slide(4))
