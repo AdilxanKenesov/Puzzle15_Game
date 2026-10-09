@@ -13,6 +13,7 @@ interface SettingsUseCase {
 
     fun setVibration(on: Boolean)
 
+    /** Signs out and resets this phone's progress, so the next player starts clean. */
     suspend fun signOut()
 
     /** Deletes the account and, once that succeeds, all local progress so the app starts over. */

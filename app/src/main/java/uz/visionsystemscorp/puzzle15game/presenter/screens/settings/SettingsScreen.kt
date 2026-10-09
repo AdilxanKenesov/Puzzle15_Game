@@ -64,6 +64,8 @@ fun SettingsScreen() {
                 val event = try {
                     requestGoogleIdToken(context)?.let(SettingsEvent::ReauthTokenReceived) ?: SettingsEvent.ReauthCancelled
                 } catch (e: CancellationException) {
+                    // The screen stopped while the picker was open: let the dialog be dismissed again.
+                    viewModel.onEventDispatcher(SettingsEvent.ReauthCancelled)
                     throw e
                 } catch (e: Exception) {
                     Log.w("GoogleSignIn", "Re-authentication failed", e)
@@ -82,7 +84,7 @@ fun SettingsScreen() {
 }
 
 @Composable
-private fun SettingsContent(
+internal fun SettingsContent(
     uiState: SettingsContract.SettingsUiState,
     onEventDispatcher: (SettingsEvent) -> Unit,
 ) {

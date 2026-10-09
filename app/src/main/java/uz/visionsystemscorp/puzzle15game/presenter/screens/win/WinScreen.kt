@@ -72,7 +72,7 @@ fun WinScreen(route: WinRoute) {
 }
 
 @Composable
-private fun WinContent(
+internal fun WinContent(
     uiState: WinContract.WinUiState,
     onEventDispatcher: (WinContract.WinEvent) -> Unit,
 ) {

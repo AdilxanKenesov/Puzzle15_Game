@@ -23,7 +23,7 @@ class WinViewModel @AssistedInject constructor(
     override fun onEventDispatcher(event: WinContract.WinEvent) {
         when (event) {
             WinContract.WinEvent.HomeClicked -> direction.backToMain()
-            WinContract.WinEvent.ReplayClicked -> direction.replay(size)
+            WinContract.WinEvent.ReplayClicked -> direction.replay(container.stateFlow.value.result)
             WinContract.WinEvent.RecordsClicked -> direction.openRecords(size)
         }
     }

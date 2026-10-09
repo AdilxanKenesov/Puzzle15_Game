@@ -5,6 +5,7 @@ import uz.visionsystemscorp.puzzle15game.domain.model.GameResult
 import uz.visionsystemscorp.puzzle15game.navigation.AppNavigator
 import uz.visionsystemscorp.puzzle15game.navigation.MainRoute
 import uz.visionsystemscorp.puzzle15game.navigation.SettingsRoute
+import uz.visionsystemscorp.puzzle15game.navigation.toGameRoute
 import uz.visionsystemscorp.puzzle15game.navigation.toWinRoute
 
 class GameDirection @Inject constructor(
@@ -12,7 +13,7 @@ class GameDirection @Inject constructor(
 ) : GameContract.Direction {
 
     /** Win replaces the game so Back from Win returns to Main. */
-    override fun openWin(result: GameResult) = navigator.replaceTo(result.toWinRoute())
+    override fun openWin(result: GameResult) = navigator.replaceTo(result.toWinRoute(), from = result.size.toGameRoute())
 
     override fun openSettings() = navigator.navigateTo(SettingsRoute)
 

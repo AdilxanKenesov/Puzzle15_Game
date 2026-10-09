@@ -1,0 +1,30 @@
+App name (30): Puzzle 15 - Jungle Slide
+
+Short description (80):
+The classic sliding 15-puzzle in a jungle world. Beat the world in fewest moves!
+
+Full description:
+Slide the wooden tiles into order — the classic 15-puzzle, reborn in a lush cartoon jungle.
+
+🧩 THREE BOARD SIZES
+Warm up on 3×3, master the classic 4×4, or take on the 5×5 challenge. Every shuffle is guaranteed to be solvable.
+
+⭐ EARN STARS
+Solve the puzzle in fewer moves to earn up to three stars. Every finished game counts toward your personal stats.
+
+🌍 WORLD LEADERBOARD
+Sign in with Google or play as a guest and see how you rank against players around the world on each board size — "Better than 82% of players!"
+
+🌴 MADE TO FEEL GOOD
+Hand-drawn jungle art, wooden tiles with satisfying animations, calm background music, sounds and vibration (all switchable in Settings).
+
+💾 NEVER LOSE A GAME
+Leave anytime — your unfinished puzzle is waiting for you when you come back.
+
+No ads. No in-app purchases. Just a great puzzle.
+
+Category: Puzzle
+Tags: puzzle, sliding puzzle, 15 puzzle, brain game, logic
+Contact email: adilxankenesov11@gmail.com
+Privacy policy: https://adilxankenesov.github.io/Puzzle15_Game/privacy-policy
+Account deletion URL: https://adilxankenesov.github.io/Puzzle15_Game/account-deletion

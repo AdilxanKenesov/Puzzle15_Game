@@ -60,7 +60,7 @@ fun SplashScreen() {
 }
 
 @Composable
-private fun SplashContent(onEventDispatcher: (SplashContract.SplashEvent) -> Unit) {
+internal fun SplashContent(onEventDispatcher: (SplashContract.SplashEvent) -> Unit) {
     val currentOnEvent by rememberUpdatedState(onEventDispatcher)
     val progress = remember { Animatable(0.04f) }
     LaunchedEffect(Unit) {

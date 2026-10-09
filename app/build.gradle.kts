@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
     alias(libs.plugins.google.services)
+    alias(libs.plugins.roborazzi)
 }
 
 // Release signing comes from keystore.properties locally and from environment variables on CI.
@@ -65,6 +66,15 @@ android {
         compose = true
         buildConfig = true
     }
+    testOptions {
+        // Robolectric screenshot tests need the real resources (images, fonts).
+        unitTests.isIncludeAndroidResources = true
+    }
+}
+
+roborazzi {
+    // `./gradlew recordRoborazziDebug` writes the README / store screenshots here.
+    outputDir.set(rootProject.file("docs/screenshots"))
 }
 
 room {
@@ -113,6 +123,11 @@ dependencies {
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(platform(libs.androidx.compose.bom))
+    testImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)

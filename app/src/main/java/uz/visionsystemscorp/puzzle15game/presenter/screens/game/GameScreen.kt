@@ -58,7 +58,7 @@ fun GameScreen(route: GameRoute) {
 }
 
 @Composable
-private fun GameContent(
+internal fun GameContent(
     uiState: GameContract.GameUiState,
     onEventDispatcher: (GameContract.GameEvent) -> Unit,
 ) {

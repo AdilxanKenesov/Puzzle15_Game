@@ -45,7 +45,7 @@ interface SettingsContract {
         fun openLogin()
         fun back()
 
-        /** After the account is deleted the app starts over from the sign-in screen. */
+        /** After signing out or deleting the account the app starts over from the sign-in screen. */
         fun restartOnboarding()
     }
 }

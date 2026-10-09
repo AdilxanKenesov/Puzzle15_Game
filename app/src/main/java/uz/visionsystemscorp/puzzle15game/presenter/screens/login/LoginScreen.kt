@@ -58,6 +58,8 @@ fun LoginScreen(route: LoginRoute) {
                 val event = try {
                     requestGoogleIdToken(context)?.let(LoginEvent::GoogleTokenReceived) ?: LoginEvent.GoogleCancelled
                 } catch (e: CancellationException) {
+                    // The screen stopped while the picker was open (Home, "add account"): unlock the buttons.
+                    viewModel.onEventDispatcher(LoginEvent.GoogleCancelled)
                     throw e
                 } catch (e: Exception) {
                     Log.w("GoogleSignIn", "Account picker failed", e)
@@ -76,7 +78,7 @@ fun LoginScreen(route: LoginRoute) {
 
 /** Sign-in choice: Google keeps records across devices, a guest account only on this one. */
 @Composable
-private fun LoginContent(
+internal fun LoginContent(
     uiState: LoginContract.LoginUiState,
     onEventDispatcher: (LoginEvent) -> Unit,
 ) {

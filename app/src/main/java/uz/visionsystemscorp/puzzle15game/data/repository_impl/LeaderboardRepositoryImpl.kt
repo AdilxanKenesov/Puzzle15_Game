@@ -7,7 +7,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.launch
@@ -36,13 +35,23 @@ class LeaderboardRepositoryImpl @Inject constructor(
 ) : LeaderboardRepository {
 
     init {
-        // A new account (sign-in, guest restored, Google switch) or a new name re-publishes every best.
+        // A new account (sign-in, guest restored, Google switch) publishes this device's bests; a new name
+        // renames the cloud entries in place, so it also reaches results this device does not hold.
         // The first value is the session the app started with, which is already up to date.
         scope.launch {
+            var previous: Pair<String?, String>? = null
             combine(authRepository.account.map { it?.uid }, profileRepository.profile.map { it.name }, ::Pair)
                 .distinctUntilChanged()
-                .drop(1)
-                .collect { BoardSize.entries.forEach(::publishBest) }
+                .collect { current ->
+                    val before = previous
+                    previous = current
+                    val (uid, name) = current
+                    when {
+                        before == null || uid == null -> Unit
+                        uid != before.first -> BoardSize.entries.forEach(::publishBest)
+                        PlayerProfile.isValidName(name) -> firestore.renameEntries(uid, name, BoardSize.entries.map { it.dimension })
+                    }
+                }
         }
     }
 

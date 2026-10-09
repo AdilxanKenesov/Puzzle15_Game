@@ -20,11 +20,11 @@ class AppNavigationDispatcher @Inject constructor() : AppNavigator, AppNavigatio
 
     override fun navigateTo(route: NavKey) = navigate(NavCommand.Push(route))
 
-    override fun replaceTo(route: NavKey) = navigate(NavCommand.Replace(route))
+    override fun replaceTo(route: NavKey, from: NavKey?) = navigate(NavCommand.Replace(route, from))
 
     override fun replaceAll(route: NavKey) = navigate(NavCommand.ReplaceAll(route))
 
-    override fun back() = navigate(NavCommand.Back)
+    override fun back(from: NavKey?) = navigate(NavCommand.Back(from))
 
     override fun backTo(route: NavKey) = navigate(NavCommand.BackTo(route))
 }

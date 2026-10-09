@@ -3,6 +3,7 @@ package uz.visionsystemscorp.puzzle15game.data.repository_impl
 import android.util.Log
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -11,10 +12,12 @@ import com.google.firebase.auth.GoogleAuthProvider
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.tasks.await
 import uz.visionsystemscorp.puzzle15game.data.source.local.pref.SharedManager
 import uz.visionsystemscorp.puzzle15game.data.source.remote.firestore.FirestoreSource
@@ -37,29 +40,35 @@ class AuthRepositoryImpl @Inject constructor(
 
     override val account: StateFlow<Account?> = state.asStateFlow()
 
-    override suspend fun signInAsGuest(): Result<Account> = runCatching {
-        val user = auth.currentUser ?: checkNotNull(auth.signInAnonymously().await().user)
-        onSignedIn(user)
+    init {
+        // Sign-ins and sign-outs, including ones that finish after the screen that started them is gone.
+        auth.addAuthStateListener { state.value = it.currentUser?.toAccount() }
     }
 
-    override suspend fun signInWithGoogle(idToken: String): Result<Account> = runCatching {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
+    // NonCancellable: once Firebase accepts a request it completes even if the screen that asked is
+    // gone, so the local bookkeeping (state, prefs, cleanup) has to complete as well.
+    override suspend fun signInAsGuest(): Result<Account> = withContext(NonCancellable) {
+        runCatching { onSignedIn(auth.currentUser ?: checkNotNull(auth.signInAnonymously().await().user)) }
+    }
+
+    override suspend fun signInWithGoogle(idToken: String): Result<Account> = withContext(NonCancellable) {
+        runCatching { onSignedIn(googleUser(GoogleAuthProvider.getCredential(idToken, null))) }
+            .onFailure { Log.w(TAG, "Firebase Google sign-in failed", it) }
+    }
+
+    private suspend fun googleUser(credential: AuthCredential): FirebaseUser {
         val current = auth.currentUser
-        val user = if (current?.isAnonymous == true) {
-            try {
-                checkNotNull(current.linkWithCredential(credential).await().user)
-            } catch (e: FirebaseAuthUserCollisionException) {
-                // This Google account already has its own records: abandon the guest and switch to it.
-                // The guest's local results are re-published under the Google account afterwards.
-                runCatching { firestore.deleteAccountData(current.uid, BoardSize.entries.map { it.dimension }) }
-                runCatching { current.delete().await() }
-                checkNotNull(auth.signInWithCredential(e.updatedCredential ?: credential).await().user)
-            }
-        } else {
-            checkNotNull(auth.signInWithCredential(credential).await().user)
+        if (current?.isAnonymous != true) return checkNotNull(auth.signInWithCredential(credential).await().user)
+        return try {
+            checkNotNull(current.linkWithCredential(credential).await().user)
+        } catch (e: FirebaseAuthUserCollisionException) {
+            // This Google account already has its own records: abandon the guest and switch to it.
+            // The guest's local results are re-published under the Google account afterwards.
+            runCatching { firestore.deleteAccountData(current.uid, BoardSize.entries.map { it.dimension }) }
+            runCatching { current.delete().await() }
+            checkNotNull(auth.signInWithCredential(e.updatedCredential ?: credential).await().user)
         }
-        onSignedIn(user)
-    }.onFailure { Log.w(TAG, "Firebase Google sign-in failed", it) }
+    }
 
     override suspend fun signOut() {
         sharedManager.signedOut = true
@@ -68,8 +77,8 @@ class AuthRepositoryImpl @Inject constructor(
         runCatching { credentialManager.clearCredentialState(ClearCredentialStateRequest()) }
     }
 
-    override suspend fun deleteAccount(googleIdToken: String?): AccountDeletion {
-        val user = auth.currentUser ?: return AccountDeletion.DELETED
+    override suspend fun deleteAccount(googleIdToken: String?): AccountDeletion = withContext(NonCancellable) {
+        val user = auth.currentUser ?: return@withContext AccountDeletion.DELETED
         try {
             if (googleIdToken != null) user.reauthenticate(GoogleAuthProvider.getCredential(googleIdToken, null)).await()
             // Cloud data first: the security rules only let the signed-in owner delete it.
@@ -77,17 +86,17 @@ class AuthRepositoryImpl @Inject constructor(
             user.delete().await()
         } catch (e: FirebaseAuthRecentLoginRequiredException) {
             // A guest cannot sign in again; its cloud data is already gone, so dropping the session is enough.
-            if (!user.isAnonymous) return AccountDeletion.NEEDS_REAUTH
+            if (!user.isAnonymous) return@withContext AccountDeletion.NEEDS_REAUTH
         } catch (e: Exception) {
             Log.w(TAG, "Account deletion failed", e)
-            return AccountDeletion.FAILED
+            return@withContext AccountDeletion.FAILED
         }
         // A fresh install starts with onboarding, not a restored guest.
         sharedManager.signedOut = false
         auth.signOut()
         state.value = null
         runCatching { credentialManager.clearCredentialState(ClearCredentialStateRequest()) }
-        return AccountDeletion.DELETED
+        AccountDeletion.DELETED
     }
 
     override fun restoreSession() {

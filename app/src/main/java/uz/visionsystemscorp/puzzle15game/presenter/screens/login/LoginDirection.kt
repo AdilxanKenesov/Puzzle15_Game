@@ -2,6 +2,7 @@ package uz.visionsystemscorp.puzzle15game.presenter.screens.login
 
 import javax.inject.Inject
 import uz.visionsystemscorp.puzzle15game.navigation.AppNavigator
+import uz.visionsystemscorp.puzzle15game.navigation.LoginRoute
 import uz.visionsystemscorp.puzzle15game.navigation.MainRoute
 import uz.visionsystemscorp.puzzle15game.navigation.NameRoute
 
@@ -13,5 +14,5 @@ class LoginDirection @Inject constructor(
 
     override fun openMain() = navigator.replaceAll(MainRoute)
 
-    override fun back() = navigator.back()
+    override fun back() = navigator.back(from = LoginRoute(isOnboarding = false))
 }

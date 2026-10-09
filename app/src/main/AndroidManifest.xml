@@ -14,10 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Puzzle15Game">
+        <!-- Portrait on phones. Where the system ignores it (large screens, Android 16+), DesignFrame
+             scales the portrait artboard to fit, so landscape still shows the whole screen. -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity,DiscouragedApi"
             android:theme="@style/Theme.Puzzle15Game.Starting"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>

@@ -62,6 +62,16 @@ class SettingsUseCaseImplTest {
     }
 
     @Test
+    fun `signing out resets this phone so the next player starts clean`() = runTest {
+        signedInPlayerWithProgress()
+        useCase.signOut()
+        assertNull(auth.account.value)
+        assertTrue(records.results.isEmpty())
+        assertTrue(games.saved.isEmpty())
+        assertFalse(profile.onboardingDone)
+    }
+
+    @Test
     fun `failed deletion keeps everything`() = runTest {
         signedInPlayerWithProgress()
         auth.deletion = AccountDeletion.FAILED

@@ -61,7 +61,7 @@ fun InfoScreen() {
 }
 
 @Composable
-private fun InfoContent(onEventDispatcher: (InfoContract.InfoEvent) -> Unit) {
+internal fun InfoContent(onEventDispatcher: (InfoContract.InfoEvent) -> Unit) {
     val onClose = { onEventDispatcher(InfoContract.InfoEvent.CloseClicked) }
     val uriHandler = LocalUriHandler.current
     // No browser / mail app installed must not crash the screen.

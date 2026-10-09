@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Puzzle 15</string>
 
     <!-- Board sizes -->
@@ -12,7 +12,8 @@
     <string name="label_moves">MOVES</string>
     <string name="action_back">BACK</string>
     <string name="action_save">SAVE</string>
-    <string name="action_cancel">CANCEL</string>
+    <!-- All-caps labels are the game's style. -->
+    <string name="action_cancel" tools:ignore="ButtonCase">CANCEL</string>
     <string name="version_label">v%1$s</string>
 
     <!-- Splash -->

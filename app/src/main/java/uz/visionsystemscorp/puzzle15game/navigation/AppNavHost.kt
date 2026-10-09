@@ -32,9 +32,9 @@ fun AppNavHost(handler: AppNavigationHandler) {
             when (command) {
                 // Ignore a repeated push from a double tap.
                 is NavCommand.Push -> if (backStack.lastOrNull() != command.route) backStack.add(command.route)
-                is NavCommand.Replace -> backStack[backStack.lastIndex] = command.route
+                is NavCommand.Replace -> if (command.from.isOnTop(backStack)) backStack[backStack.lastIndex] = command.route
                 is NavCommand.ReplaceAll -> backStack.resetTo(command.route)
-                NavCommand.Back -> backStack.pop()
+                is NavCommand.Back -> if (command.from.isOnTop(backStack)) backStack.pop()
                 is NavCommand.BackTo -> {
                     if (command.route in backStack) {
                         while (backStack.last() != command.route) backStack.removeAt(backStack.lastIndex)
@@ -66,6 +66,9 @@ fun AppNavHost(handler: AppNavigationHandler) {
         },
     )
 }
+
+/** A command without a source screen always applies. */
+private fun NavKey?.isOnTop(backStack: NavBackStack<NavKey>): Boolean = this == null || backStack.lastOrNull() == this
 
 private fun NavBackStack<NavKey>.pop() {
     if (size > 1) removeAt(lastIndex)

@@ -22,7 +22,7 @@ interface WinContract {
 
     interface Direction {
         fun backToMain()
-        fun replay(size: BoardSize)
+        fun replay(result: GameResult)
         fun openRecords(size: BoardSize)
     }
 }

@@ -45,7 +45,7 @@ fun MainScreen() {
 }
 
 @Composable
-private fun MainContent(
+internal fun MainContent(
     uiState: MainContract.MainUiState,
     onEventDispatcher: (MainContract.MainEvent) -> Unit,
 ) {

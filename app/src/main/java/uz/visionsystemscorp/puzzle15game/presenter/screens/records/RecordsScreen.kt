@@ -79,7 +79,7 @@ fun RecordsScreen(route: RecordsRoute) {
 }
 
 @Composable
-private fun RecordsContent(
+internal fun RecordsContent(
     uiState: RecordsContract.RecordsUiState,
     onEventDispatcher: (RecordsEvent) -> Unit,
 ) {

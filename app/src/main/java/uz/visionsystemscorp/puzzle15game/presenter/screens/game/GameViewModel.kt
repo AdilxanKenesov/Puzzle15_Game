@@ -42,6 +42,8 @@ class GameViewModel @AssistedInject constructor(
         when (event) {
             is GameEvent.TileClicked -> onTileClicked(event.index)
             GameEvent.ShuffleClicked -> intent {
+                // The win screen is on its way; a reshuffle now would be thrown away.
+                if (state.isSolved) return@intent
                 stopTimer()
                 val game = gameUseCase.restart(size)
                 reduce { state.withGame(game).copy(isPaused = false, round = state.round + 1) }

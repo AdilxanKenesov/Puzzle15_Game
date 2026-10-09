@@ -36,14 +36,20 @@ class SettingsUseCaseImpl @Inject constructor(
 
     override fun setVibration(on: Boolean) = settingsRepository.update { it.copy(vibration = on) }
 
-    override suspend fun signOut() = authRepository.signOut()
+    override suspend fun signOut() {
+        authRepository.signOut()
+        // Otherwise the next account to sign in here would publish these results as its own.
+        resetLocalProgress()
+    }
 
     override suspend fun deleteAccount(googleIdToken: String?): AccountDeletion =
         authRepository.deleteAccount(googleIdToken).also { result ->
-            if (result == AccountDeletion.DELETED) {
-                recordsRepository.clearAll()
-                gameRepository.clearAll()
-                profileRepository.reset()
-            }
+            if (result == AccountDeletion.DELETED) resetLocalProgress()
         }
+
+    private suspend fun resetLocalProgress() {
+        recordsRepository.clearAll()
+        gameRepository.clearAll()
+        profileRepository.reset()
+    }
 }

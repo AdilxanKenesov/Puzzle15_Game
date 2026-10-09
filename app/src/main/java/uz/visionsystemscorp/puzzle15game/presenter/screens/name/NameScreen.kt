@@ -54,7 +54,7 @@ fun NameScreen(route: NameRoute) {
 }
 
 @Composable
-private fun NameContent(
+internal fun NameContent(
     uiState: NameContract.NameUiState,
     onEventDispatcher: (NameContract.NameEvent) -> Unit,
 ) {

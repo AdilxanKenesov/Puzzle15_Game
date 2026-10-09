@@ -41,6 +41,15 @@ class FirestoreSource @Inject constructor(
         ).logFailure("putBest")
     }
 
+    /** Renames the player's existing entries; sizes they never ranked on are skipped by Firestore. */
+    fun renameEntries(uid: String, name: String, dimensions: List<Int>) {
+        dimensions.forEach { dimension ->
+            entries(dimension).document(uid)
+                .update(mapOf(FIELD_NAME to name, FIELD_UPDATED_AT to FieldValue.serverTimestamp()))
+                .logFailure("renameEntries")
+        }
+    }
+
     /** Removes everything stored for [uid]; used before a guest account is abandoned. */
     suspend fun deleteAccountData(uid: String, dimensions: List<Int>) {
         db.batch().apply {

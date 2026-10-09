@@ -40,7 +40,12 @@ class SettingsViewModel @Inject constructor(
             is SettingsEvent.VibrationChanged -> settingsUseCase.setVibration(event.on)
             SettingsEvent.EditNameClicked -> direction.openNameEditor()
             SettingsEvent.AccountClicked -> intent {
-                if (state.isSignedIn) settingsUseCase.signOut() else direction.openLogin()
+                if (state.isSignedIn) {
+                    settingsUseCase.signOut()
+                    direction.restartOnboarding()
+                } else {
+                    direction.openLogin()
+                }
             }
             SettingsEvent.CloseClicked -> direction.back()
             SettingsEvent.DeleteAccountClicked -> intent { reduce { state.copy(showDeleteConfirm = true) } }
