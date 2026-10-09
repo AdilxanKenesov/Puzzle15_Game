@@ -102,7 +102,7 @@ internal fun SettingsContent(
         TopSign(stringResource(R.string.settings_title), fontSize = 26.sp)
         TopRightCloseButton { onEventDispatcher(SettingsEvent.CloseClicked) }
 
-        WoodPanel(Modifier.place(15.dp, 190.dp, 360.dp, 450.dp).popIn(delayMillis = 150, initialScale = 0.3f)) {
+        WoodPanel(Modifier.place(15.dp, 190.dp, 360.dp, 376.dp).popIn(delayMillis = 150, initialScale = 0.3f)) {
             Column(
                 modifier = Modifier.padding(horizontal = 4.dp, vertical = 6.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -120,16 +120,13 @@ internal fun SettingsContent(
                         shadowOffset = 2.dp,
                     )
                 }
-                SettingRow {
-                    LabeledValue(stringResource(R.string.settings_language), stringResource(R.string.settings_language_value))
-                }
             }
         }
 
         WoodButton(
             text = stringResource(if (uiState.isSignedIn) R.string.settings_sign_out else R.string.settings_sign_in),
             onClick = { onEventDispatcher(SettingsEvent.AccountClicked) },
-            modifier = Modifier.place(90.dp, 662.dp, 210.dp, 94.dp),
+            modifier = Modifier.place(90.dp, 596.dp, 210.dp, 94.dp),
             fontSize = 28.sp,
         )
 
@@ -137,7 +134,7 @@ internal fun SettingsContent(
             Text(
                 text = stringResource(R.string.settings_delete_account),
                 modifier = Modifier
-                    .place(95.dp, 770.dp, 200.dp, 36.dp)
+                    .place(95.dp, 704.dp, 200.dp, 36.dp)
                     .pressClickable(role = Role.Button) { onEventDispatcher(SettingsEvent.DeleteAccountClicked) }
                     .wrapContentHeight(),
                 style = LabelStyle.copy(fontSize = 14.sp, color = Cream, textDecoration = TextDecoration.Underline),

@@ -80,8 +80,6 @@
     <string name="settings_vibration">VIBRATION</string>
     <string name="settings_player_name">PLAYER NAME</string>
     <string name="settings_edit">EDIT ›</string>
-    <string name="settings_language">LANGUAGE</string>
-    <string name="settings_language_value">English</string>
     <string name="settings_sign_in">SIGN IN</string>
     <string name="settings_sign_out">SIGN OUT</string>
     <string name="settings_delete_account">Delete account</string>
