@@ -1,4 +1,4 @@
-App name (30): Puzzle 15 - Jungle Slide
+App name (30): Jungle 15 Puzzle
 
 Short description (80):
 The classic sliding 15-puzzle in a jungle world. Beat the world in fewest moves!
