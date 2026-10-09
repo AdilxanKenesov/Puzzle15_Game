@@ -25,3 +25,7 @@ keystore/
 
 # Local build outputs
 /dist
+
+# Firebase console copies (kept locally only)
+firestore.rules
+firestore.indexes.json

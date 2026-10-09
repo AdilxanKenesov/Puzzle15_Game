@@ -111,7 +111,7 @@ flowchart LR
 ```
 
 - **`domain`** has no Android or Firebase imports. It holds the board model, the `GameEngine` (shuffle, solvability check and stars), repository interfaces and one use case per screen.
-- **`data`** implements those interfaces. A new personal best is written to `leaderboards/{size}/entries/{uid}` in a fire-and-forget call: Firestore queues it offline, and the [security rules](firestore.rules) reject anything that is not an improvement.
+- **`data`** implements those interfaces. A new personal best is written to `leaderboards/{size}/entries/{uid}` in a fire-and-forget call: Firestore queues it offline, and the Firestore security rules reject anything that is not an improvement.
 - **`presenter`** follows the same pattern on every screen: `XContract` (events, state, side effects, direction), `XViewModel`, `XDirection` and a stateless `XContent`. Screens with arguments get assisted-inject ViewModels.
 - **Layout.** Screens are laid out on the design's 390×844 artboard (`DesignFrame`), which scales to fit any phone.
 
@@ -135,7 +135,6 @@ app/src/main/java/uz/visionsystemscorp/puzzle15game/
     ├── screens/    splash, login, name, main, game, win, records, settings, info
     └── ui/         theme, animation, shared wooden components, utils
 docs/               GitHub Pages (privacy policy, account deletion), screenshots, Play Store assets
-firestore.rules     Firestore security rules
 ```
 
 ## Getting started
@@ -172,8 +171,8 @@ Without a keystore, `assembleRelease` still builds an unsigned APK, which is use
 
 1. **Authentication → Sign-in method:** enable **Google** and **Anonymous**.
 2. **Project settings → Your apps → SHA fingerprints:** add the SHA-1 and SHA-256 of the debug key, the upload key and the **Play App Signing** key (Play Console → Setup → App signing). Then download `google-services.json` again.
-3. **Firestore:** create the database (Standard edition), then publish [`firestore.rules`](firestore.rules).
-4. **Firestore → Indexes:** add the composite index from [`firestore.indexes.json`](firestore.indexes.json):
+3. **Firestore:** create the database (Standard edition), then publish security rules that allow public reads of `leaderboards`, and owner-only writes that may only improve a result.
+4. **Firestore → Indexes:** add this composite index:
    - collection `entries`
    - `moves` Ascending, `seconds` Ascending
    - query scope Collection
