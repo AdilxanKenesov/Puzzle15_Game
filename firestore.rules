@@ -1,0 +1,56 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function validName(name) {
+      return name is string && name.size() >= 3 && name.size() <= 16;
+    }
+
+    // Player profile: only the owner can see or change it.
+    match /users/{uid} {
+      allow read, delete: if isOwner(uid);
+      allow create, update: if isOwner(uid)
+        && request.resource.data.keys().hasOnly(['name', 'updatedAt'])
+        && validName(request.resource.data.name)
+        && request.resource.data.updatedAt == request.time;
+    }
+
+    // World leaderboard: one document per player per board size (3, 4, 5),
+    // holding only that player's best result.
+    match /leaderboards/{size}/entries/{uid} {
+
+      function validEntry() {
+        let d = request.resource.data;
+        return d.keys().hasOnly(['name', 'moves', 'seconds', 'updatedAt'])
+          && d.keys().hasAll(['name', 'moves', 'seconds', 'updatedAt'])
+          && validName(d.name)
+          && d.moves is int && d.moves >= 1 && d.moves <= 100000
+          && d.seconds is int && d.seconds >= 0 && d.seconds <= 360000
+          && d.updatedAt == request.time;
+      }
+
+      // A result may only stay the same (e.g. a name change) or get better.
+      function notWorse() {
+        let d = request.resource.data;
+        let old = resource.data;
+        return d.moves < old.moves
+          || (d.moves == old.moves && d.seconds <= old.seconds);
+      }
+
+      // Public, so the ranking still shows after signing out.
+      allow read: if true;
+      allow create: if isOwner(uid) && size in ['3', '4', '5'] && validEntry();
+      allow update: if isOwner(uid) && validEntry() && notWorse();
+      allow delete: if isOwner(uid);
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "808949600959",
+    "project_id": "puzzle-15-game-5b4d0",
+    "storage_bucket": "puzzle-15-game-5b4d0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808949600959:android:70b08e719df46f5c67ac0a",
+        "android_client_info": {
+          "package_name": "uz.visionsystemscorp.puzzle15game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808949600959-r3qded9qevcv0kpfl4efg4fpq2is07v3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "uz.visionsystemscorp.puzzle15game",
+            "certificate_hash": "f38caf9a0da468e5f7c8e85b51d3a5428b0cc6bd"
+          }
+        },
+        {
+          "client_id": "808949600959-vfrmlot6j47t8kp8o9pqtqu9doo1n9g7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnCjACLm8okW5T8K4rAcGzY_TkF2mN3oU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "808949600959-vfrmlot6j47t8kp8o9pqtqu9doo1n9g7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

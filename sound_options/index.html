@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Puzzle 15 ovozlari</title>
+<style>
+  :root { --bg:#0e3a30; --card:#16503f; --text:#ffe6b8; --muted:#c9b48a; --accent:#ffd34d; --wood:#8a4a22; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.5 system-ui, sans-serif; padding:24px 16px; }
+  main { max-width:760px; margin:0 auto; }
+  h1 { margin:0 0 4px; color:var(--accent); }
+  p.lead { margin:0 0 24px; color:var(--muted); }
+  .card { background:var(--card); border-radius:14px; padding:16px; margin-bottom:14px; }
+  .card h2 { margin:0 0 4px; font-size:19px; }
+  .meta { color:var(--muted); font-size:14px; margin-bottom:10px; }
+  .row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+  audio { width:100%; max-width:420px; height:36px; }
+  button { background:var(--wood); color:var(--text); border:0; border-radius:10px; padding:9px 16px; font-weight:700; cursor:pointer; }
+  button:active { transform:scale(.95); }
+  a { color:var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Puzzle 15: ovoz variantlari</h1>
+  <p class="lead">Har bir juftlikda fon musiqasi va tugma bosilgandagi ovoz bor. Musiqani qo'yib, ustidan "Tugma" tugmasini bir necha marta bosib ko'r: o'yindagidek eshitiladi. Barcha ovozlar bir xil balandlikka keltirilgan.</p>
+  <div id="list"></div>
+</main>
+<script>
+const pairs = [
+  { dir: "1", title: "1. I think I'd stay (jungle chill) + yumshoq chertish",
+    music: "Emmntt, kalimba, shamol va qushlar ovozi bilan tinch loop, 1:25", musicUrl: "https://opengameart.org/content/i-think-id-stay-jungle-chill",
+    click: "Kenney Interface Sounds — pluck_001", license: "CC0 (ikkalasi)" },
+  { dir: "2", title: "2. Chill Jungle + yog'och taqillashi",
+    music: "Pro Sensory, sokin o'rmon kayfiyati, 1:44", musicUrl: "https://opengameart.org/content/chill-jungle",
+    click: "Kenney Impact Sounds — impactWood_light_002 (yog'och tugmalarga mos)", license: "CC0 / public domain" },
+  { dir: "3", title: "3. Jungle Sway 1 + tomchi",
+    music: "Tozan, marimba bilan chayqaluvchi quvnoq kuy, 1:28", musicUrl: "https://opengameart.org/content/jungle-sway-1",
+    click: "Kenney Interface Sounds — drop_002", license: "CC0 (ikkalasi)" },
+  { dir: "4", title: "4. Jungle Simple Style 1 + klassik klik",
+    music: "Tozan, vibrafon, marimba va torli cholg'u, 2:43", musicUrl: "https://opengameart.org/content/jungle-simple-style-1",
+    click: "Kenney UI Audio — click3", license: "CC0 (ikkalasi)" },
+  { dir: "5", title: "5. Your Average Jungle Day + qisqa tik",
+    music: "Umplix, o'rmondagi oddiy kun, 2:11", musicUrl: "https://opengameart.org/content/your-average-jungle-day",
+    click: "Kenney Interface Sounds — tick_002", license: "CC0 (ikkalasi)" },
+  { dir: "0_current", title: "Hozirgi (taqqoslash uchun)",
+    music: "O'zim sintez qilgan musiqa, 0:18", musicUrl: null,
+    click: "O'zim sintez qilgan chertish", license: "—" },
+];
+
+for (const p of pairs) {
+  const n = p.dir === "0_current" ? "0-current" : p.dir;
+  p.music_file = `sound${n}.ogg`;
+  p.click_file = `click-sound-${n}.ogg`;
+}
+const list = document.getElementById("list");
+for (const p of pairs) {
+  const card = document.createElement("section");
+  card.className = "card";
+  const src = p.musicUrl ? ` · <a href="${p.musicUrl}" target="_blank" rel="noopener">manba</a>` : "";
+  card.innerHTML = `
+    <h2>${p.title}</h2>
+    <div class="meta">Musiqa: ${p.music}${src}<br>Tugma: ${p.click}<br>Litsenziya: ${p.license}</div>
+    <div class="row">
+      <audio controls loop preload="none" src="${p.music_file}"></audio>
+      <button type="button">Tugma</button>
+    </div>`;
+  const music = card.querySelector("audio");
+  music.addEventListener("play", () => {
+    document.querySelectorAll("audio").forEach(a => { if (a !== music) a.pause(); });
+  });
+  card.querySelector("button").addEventListener("click", () => new Audio(p.click_file).play());
+  list.appendChild(card);
+}
+</script>
+</body>
+</html>
