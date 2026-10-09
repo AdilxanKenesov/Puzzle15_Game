@@ -1,6 +1,5 @@
 package uz.visionsystemscorp.puzzle15game.presenter.ui.components
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -20,14 +19,12 @@ import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.JungleScrim
  * Shared root of every screen: full-bleed jungle art, an optional dark scrim and
  * the scaled [DesignFrame] that [content] is placed on.
  *
- * @param background full-bleed art behind the artboard.
  * @param overlay drawn above everything across the whole window (not just the artboard),
  * e.g. a dialog whose scrim must also cover the system bars and letterbox areas.
  */
 @Composable
 fun ScreenBackground(
     modifier: Modifier = Modifier,
-    @DrawableRes background: Int = R.drawable.bg_main,
     scrimAlpha: Float = 0f,
     showFireflies: Boolean = false,
     overlay: (@Composable BoxScope.() -> Unit)? = null,
@@ -35,7 +32,7 @@ fun ScreenBackground(
 ) {
     Box(modifier.fillMaxSize().background(Jungle)) {
         Image(
-            painter = painterResource(background),
+            painter = painterResource(R.drawable.bg_main),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,

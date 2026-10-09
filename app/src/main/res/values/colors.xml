@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="jungle">#FF0E3A30</color>
-    <!-- Average tone of bg_splash, so the system splash fades into the in-app one. -->
-    <color name="splash">#FF428F60</color>
 </resources>
