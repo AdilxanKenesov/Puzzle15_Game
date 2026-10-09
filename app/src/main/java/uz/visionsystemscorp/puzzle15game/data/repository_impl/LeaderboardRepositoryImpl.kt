@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.launch
 import uz.visionsystemscorp.puzzle15game.data.mapper.toDomain
+import uz.visionsystemscorp.puzzle15game.data.source.local.pref.SharedManager
 import uz.visionsystemscorp.puzzle15game.data.source.remote.firestore.FirestoreSource
 import uz.visionsystemscorp.puzzle15game.data.source.remote.firestore.LeaderboardEntryDto
 import uz.visionsystemscorp.puzzle15game.di.ApplicationScope
@@ -31,13 +32,14 @@ class LeaderboardRepositoryImpl @Inject constructor(
     private val authRepository: AuthRepository,
     private val profileRepository: ProfileRepository,
     private val recordsRepository: RecordsRepository,
+    private val sharedManager: SharedManager,
     @ApplicationScope private val scope: CoroutineScope,
 ) : LeaderboardRepository {
 
     init {
-        // A new account (sign-in, guest restored, Google switch) publishes this device's bests; a new name
-        // renames the cloud entries in place, so it also reaches results this device does not hold.
-        // The first value is the session the app started with, which is already up to date.
+        // On launch and whenever the account or name changes, upload any best that the server has not
+        // confirmed yet (the ledger in prefs skips the rest), so a failed or interrupted write heals itself.
+        // A new name also renames the cloud entries in place, reaching results this device does not hold.
         scope.launch {
             var previous: Pair<String?, String>? = null
             combine(authRepository.account.map { it?.uid }, profileRepository.profile.map { it.name }, ::Pair)
@@ -46,10 +48,10 @@ class LeaderboardRepositoryImpl @Inject constructor(
                     val before = previous
                     previous = current
                     val (uid, name) = current
-                    when {
-                        before == null || uid == null -> Unit
-                        uid != before.first -> BoardSize.entries.forEach(::publishBest)
-                        PlayerProfile.isValidName(name) -> firestore.renameEntries(uid, name, BoardSize.entries.map { it.dimension })
+                    if (uid == null || !PlayerProfile.isValidName(name)) return@collect
+                    BoardSize.entries.forEach { publish(it) }
+                    if (before != null && before.first == uid && before.second != name) {
+                        firestore.renameEntries(uid, name, BoardSize.entries.map { it.dimension })
                     }
                 }
         }
@@ -71,13 +73,18 @@ class LeaderboardRepositoryImpl @Inject constructor(
             }
 
     override fun publishBest(size: BoardSize) {
+        scope.launch { publish(size) }
+    }
+
+    private suspend fun publish(size: BoardSize) {
         val uid = authRepository.account.value?.uid ?: return
         val name = profileRepository.profile.value.name
         if (!PlayerProfile.isValidName(name)) return
-        scope.launch {
-            val best = recordsRepository.getBest(size) ?: return@launch
-            firestore.putBest(uid, size.dimension, LeaderboardEntryDto(name, best.moves, best.seconds))
-        }
+        val best = recordsRepository.getBest(size) ?: return
+        val signature = "$uid|$name|${best.moves}|${best.seconds}"
+        if (sharedManager.publishedBest(size.dimension) == signature) return
+        firestore.putBest(uid, size.dimension, LeaderboardEntryDto(name, best.moves, best.seconds))
+            .addOnSuccessListener { sharedManager.setPublishedBest(size.dimension, signature) }
     }
 
     private suspend fun fetch(size: BoardSize, uid: String?, localYou: LeaderboardEntry?): Leaderboard {

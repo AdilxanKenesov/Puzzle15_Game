@@ -30,7 +30,8 @@ class FirestoreSource @Inject constructor(
         user(uid).set(mapOf(FIELD_NAME to name, FIELD_UPDATED_AT to FieldValue.serverTimestamp())).logFailure("putName")
     }
 
-    fun putBest(uid: String, dimension: Int, entry: LeaderboardEntryDto) {
+    /** Completes once the server has accepted the write (it stays queued while offline). */
+    fun putBest(uid: String, dimension: Int, entry: LeaderboardEntryDto): Task<Void> =
         entries(dimension).document(uid).set(
             mapOf(
                 FIELD_NAME to entry.name,
@@ -38,8 +39,7 @@ class FirestoreSource @Inject constructor(
                 FIELD_SECONDS to entry.seconds,
                 FIELD_UPDATED_AT to FieldValue.serverTimestamp(),
             ),
-        ).logFailure("putBest")
-    }
+        ).also { it.logFailure("putBest") }
 
     /** Renames the player's existing entries; sizes they never ranked on are skipped by Firestore. */
     fun renameEntries(uid: String, name: String, dimensions: List<Int>) {
