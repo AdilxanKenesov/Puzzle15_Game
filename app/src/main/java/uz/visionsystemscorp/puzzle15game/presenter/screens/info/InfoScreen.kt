@@ -29,7 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import uz.visionsystemscorp.puzzle15game.BuildConfig
 import uz.visionsystemscorp.puzzle15game.R
 import uz.visionsystemscorp.puzzle15game.presenter.ui.animation.popIn
 import uz.visionsystemscorp.puzzle15game.presenter.ui.components.InsetBox
@@ -118,7 +117,6 @@ internal fun InfoContent(onEventDispatcher: (InfoContract.InfoEvent) -> Unit) {
                     textAlign = TextAlign.Center,
                 )
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                    Text(stringResource(R.string.info_version, BuildConfig.VERSION_NAME) + " · ", style = LabelStyle)
                     Text(
                         text = stringResource(R.string.info_privacy),
                         modifier = Modifier.pressClickable(role = Role.Button) { openUri(privacyUrl) },

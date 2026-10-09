@@ -21,14 +21,20 @@ class HapticManager @Inject constructor(
             context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
         }
 
-    fun tick() = vibrate(longArrayOf(0, 15))
+    /** A short, firm knock per tile move; 15 ms was too faint to feel on many phones. */
+    fun tick() = vibrate(longArrayOf(0, 35), intArrayOf(0, 180))
 
-    fun celebrate() = vibrate(longArrayOf(0, 60, 80, 60, 80, 120))
+    fun celebrate() = vibrate(longArrayOf(0, 80, 90, 80, 90, 180), intArrayOf(0, 220, 0, 220, 0, 255))
 
-    private fun vibrate(pattern: LongArray) {
+    private fun vibrate(pattern: LongArray, amplitudes: IntArray) {
         val vibrator = vibrator?.takeIf { it.hasVibrator() } ?: return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1))
+            val effect = if (vibrator.hasAmplitudeControl()) {
+                VibrationEffect.createWaveform(pattern, amplitudes, -1)
+            } else {
+                VibrationEffect.createWaveform(pattern, -1)
+            }
+            vibrator.vibrate(effect)
         } else {
             @Suppress("DEPRECATION")
             vibrator.vibrate(pattern, -1)

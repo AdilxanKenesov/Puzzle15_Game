@@ -29,7 +29,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import kotlin.coroutines.cancellation.CancellationException
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
-import uz.visionsystemscorp.puzzle15game.BuildConfig
 import uz.visionsystemscorp.puzzle15game.R
 import uz.visionsystemscorp.puzzle15game.presenter.screens.settings.SettingsContract.SettingsEvent
 import uz.visionsystemscorp.puzzle15game.presenter.ui.animation.popIn
@@ -123,7 +122,6 @@ internal fun SettingsContent(
                 }
                 SettingRow {
                     LabeledValue(stringResource(R.string.settings_language), stringResource(R.string.settings_language_value))
-                    Text(stringResource(R.string.version_label, BuildConfig.VERSION_NAME), style = LabelStyle.copy(fontSize = 12.sp, letterSpacing = 0.sp))
                 }
             }
         }

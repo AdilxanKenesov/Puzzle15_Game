@@ -14,7 +14,6 @@
     <string name="action_save">SAVE</string>
     <!-- All-caps labels are the game's style. -->
     <string name="action_cancel" tools:ignore="ButtonCase">CANCEL</string>
-    <string name="version_label">v%1$s</string>
 
     <!-- Splash -->
     <string name="splash_title_top">PUZZLE</string>
@@ -105,7 +104,6 @@
     <string name="info_telegram_url" translatable="false"></string>
     <string name="info_email_url" translatable="false"></string>
     <string name="info_privacy_url" translatable="false">https://adilxankenesov.github.io/Puzzle15_Game/privacy-policy</string>
-    <string name="info_version">VERSION %1$s</string>
     <string name="info_privacy">PRIVACY POLICY</string>
     <string name="info_credits">Illustrations: Freepik · Fonts: Google Fonts (OFL)</string>
 
