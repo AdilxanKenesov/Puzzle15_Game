@@ -13,3 +13,15 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# IDE
+.idea/
+
+# Release signing
+keystore.properties
+keystore/
+*.jks
+*.keystore
+
+# Local build outputs
+/dist

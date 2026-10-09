@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import uz.visionsystemscorp.puzzle15game.domain.model.Account
+import uz.visionsystemscorp.puzzle15game.domain.model.AccountDeletion
 import uz.visionsystemscorp.puzzle15game.domain.model.BestResult
 import uz.visionsystemscorp.puzzle15game.domain.model.BoardSize
 import uz.visionsystemscorp.puzzle15game.domain.model.Leaderboard
@@ -33,6 +34,8 @@ class FakeGameRepository : GameRepository {
     override suspend fun clear(size: BoardSize) {
         saved.remove(size)
     }
+
+    override suspend fun clearAll() = saved.clear()
 }
 
 class FakeRecordsRepository : RecordsRepository {
@@ -50,6 +53,8 @@ class FakeRecordsRepository : RecordsRepository {
             ?.let { BestResult(it.moves, it.seconds) }
 
     override fun observeStats(size: BoardSize): Flow<PersonalStats?> = flowOf(null)
+
+    override suspend fun clearAll() = results.clear()
 }
 
 class FakeSettingsRepository : SettingsRepository {
@@ -78,6 +83,11 @@ class FakeProfileRepository : ProfileRepository {
 
     override fun setOnboardingDone() {
         onboardingDone = true
+    }
+
+    override fun reset() {
+        onboardingDone = false
+        setName("")
     }
 }
 
@@ -122,6 +132,17 @@ class FakeAuthRepository : AuthRepository {
 
     override fun restoreSession() {
         restores++
+    }
+
+    /** What the next [deleteAccount] call without a token returns. */
+    var deletion = AccountDeletion.DELETED
+    val deletionTokens = mutableListOf<String?>()
+
+    override suspend fun deleteAccount(googleIdToken: String?): AccountDeletion {
+        deletionTokens += googleIdToken
+        val result = if (googleIdToken != null) AccountDeletion.DELETED else deletion
+        if (result == AccountDeletion.DELETED) state.value = null
+        return result
     }
 }
 

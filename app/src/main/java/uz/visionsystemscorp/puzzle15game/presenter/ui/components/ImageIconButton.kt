@@ -11,7 +11,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.res.stringResource
 import uz.visionsystemscorp.puzzle15game.R
 
 /** Round PNG button (home, settings, pause, shuffle...). The caller sets its size. */
@@ -37,15 +36,4 @@ fun ImageIconButton(
         )
         overlay?.invoke(this)
     }
-}
-
-/** Sound on/off toggle shared by Main and Game. */
-@Composable
-fun SoundButton(isOn: Boolean, onToggle: () -> Unit, modifier: Modifier = Modifier) {
-    ImageIconButton(
-        icon = if (isOn) R.drawable.btn_sound_on else R.drawable.btn_sound_off,
-        contentDescription = stringResource(if (isOn) R.string.cd_sound_on else R.string.cd_sound_off),
-        onClick = onToggle,
-        modifier = modifier,
-    )
 }

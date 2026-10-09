@@ -12,6 +12,7 @@
     <string name="label_moves">MOVES</string>
     <string name="action_back">BACK</string>
     <string name="action_save">SAVE</string>
+    <string name="action_cancel">CANCEL</string>
     <string name="version_label">v%1$s</string>
 
     <!-- Splash -->
@@ -83,6 +84,11 @@
     <string name="settings_language_value">English</string>
     <string name="settings_sign_in">SIGN IN</string>
     <string name="settings_sign_out">SIGN OUT</string>
+    <string name="settings_delete_account">Delete account</string>
+    <string name="settings_delete_title">DELETE ACCOUNT?</string>
+    <string name="settings_delete_body">Your name and world records will be removed, and the progress on this phone will be reset. This can\'t be undone.</string>
+    <string name="settings_delete_confirm">DELETE</string>
+    <string name="settings_delete_error">Couldn\'t delete the account. Check your connection and try again.</string>
 
     <!-- Info -->
     <string name="info_title">ABOUT</string>
@@ -91,18 +97,18 @@
     <string name="info_developer_heading">DEVELOPER</string>
     <string name="info_developer_initials">KA</string>
     <string name="info_developer_name">Kenesov Adilxan</string>
-    <string name="info_developer_bio">[Short bio]</string>
+    <string name="info_developer_bio" translatable="false"></string>
     <string name="info_telegram">TELEGRAM</string>
     <string name="info_email">EMAIL</string>
-    <string name="info_telegram_url" translatable="false">https://t.me/</string>
-    <string name="info_email_url" translatable="false">mailto:</string>
-    <string name="info_privacy_url" translatable="false">https://example.com/privacy</string>
+    <!-- Leave a link empty to hide its button. -->
+    <string name="info_telegram_url" translatable="false"></string>
+    <string name="info_email_url" translatable="false"></string>
+    <string name="info_privacy_url" translatable="false">https://adilxankenesov.github.io/Puzzle15_Game/privacy-policy</string>
     <string name="info_version">VERSION %1$s</string>
     <string name="info_privacy">PRIVACY POLICY</string>
+    <string name="info_credits">Illustrations: Freepik · Fonts: Google Fonts (OFL)</string>
 
     <!-- Content descriptions -->
-    <string name="cd_sound_on">Sound on</string>
-    <string name="cd_sound_off">Sound off</string>
     <string name="cd_smaller_board">Smaller board</string>
     <string name="cd_bigger_board">Bigger board</string>
     <string name="cd_home">Home</string>

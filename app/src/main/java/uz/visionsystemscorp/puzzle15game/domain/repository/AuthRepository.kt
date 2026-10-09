@@ -2,6 +2,7 @@ package uz.visionsystemscorp.puzzle15game.domain.repository
 
 import kotlinx.coroutines.flow.StateFlow
 import uz.visionsystemscorp.puzzle15game.domain.model.Account
+import uz.visionsystemscorp.puzzle15game.domain.model.AccountDeletion
 
 interface AuthRepository {
     /** Null while signed out. */
@@ -17,6 +18,12 @@ interface AuthRepository {
     suspend fun signInWithGoogle(idToken: String): Result<Account>
 
     suspend fun signOut()
+
+    /**
+     * Removes the account and everything it stored in the cloud, then signs out.
+     * @param googleIdToken a fresh token after [AccountDeletion.NEEDS_REAUTH].
+     */
+    suspend fun deleteAccount(googleIdToken: String? = null): AccountDeletion
 
     /** Starts a guest session in the background if one was lost (e.g. first sign-in happened offline). */
     fun restoreSession()

@@ -1,7 +1,6 @@
 package uz.visionsystemscorp.puzzle15game.domain.usecase
 
 import kotlin.random.Random
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -19,10 +18,9 @@ class GameUseCaseImplTest {
 
     private val games = FakeGameRepository()
     private val records = FakeRecordsRepository()
-    private val settings = FakeSettingsRepository()
     private val feedback = FakeFeedbackRepository()
     private val leaderboard = FakeLeaderboardRepository()
-    private val useCase = GameUseCaseImpl(GameEngine(Random(1)), games, records, settings, feedback, leaderboard)
+    private val useCase = GameUseCaseImpl(GameEngine(Random(1)), games, records, feedback, leaderboard)
 
     @Test
     fun `start resumes the saved game`() = runTest {
@@ -85,16 +83,6 @@ class GameUseCaseImplTest {
         useCase.finish(BoardSize.FOUR, moves = 95, seconds = 10)
         useCase.finish(BoardSize.FOUR, moves = 80, seconds = 99)
         assertEquals(listOf(BoardSize.FOUR, BoardSize.FOUR), leaderboard.published)
-    }
-
-    @Test
-    fun `audio toggle mutes and unmutes music and sound together`() = runTest {
-        assertTrue(useCase.observeAudio().first())
-        useCase.toggleAudio()
-        assertFalse(settings.settings.value.music)
-        assertFalse(settings.settings.value.sound)
-        useCase.toggleAudio()
-        assertTrue(useCase.observeAudio().first())
     }
 
     @Test

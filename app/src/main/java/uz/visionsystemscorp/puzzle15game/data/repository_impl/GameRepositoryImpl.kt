@@ -20,4 +20,6 @@ class GameRepositoryImpl @Inject constructor(
     override suspend fun save(game: SavedGame) = savedGameDao.upsert(game.toEntity())
 
     override suspend fun clear(size: BoardSize) = savedGameDao.delete(size.dimension)
+
+    override suspend fun clearAll() = savedGameDao.deleteAll()
 }

@@ -16,7 +16,6 @@ interface GameContract {
         data object ShuffleClicked : GameEvent
         data object PauseClicked : GameEvent
         data object ResumeClicked : GameEvent
-        data object AudioClicked : GameEvent
         data object HomeClicked : GameEvent
         data object SettingsClicked : GameEvent
 
@@ -31,7 +30,6 @@ interface GameContract {
         val moves: Int = 0,
         val elapsedSeconds: Long = 0,
         val isPaused: Boolean = false,
-        val isAudioOn: Boolean = true,
         /** Bumped on every new shuffle so the tiles replay their entrance animation. */
         val round: Int = 0,
     ) {

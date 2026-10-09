@@ -39,13 +39,11 @@ import uz.visionsystemscorp.puzzle15game.presenter.ui.components.ShadowedBodyTex
 import uz.visionsystemscorp.puzzle15game.presenter.ui.components.SignHeader
 import uz.visionsystemscorp.puzzle15game.presenter.ui.components.WoodButton
 import uz.visionsystemscorp.puzzle15game.presenter.ui.components.place
-import uz.visionsystemscorp.puzzle15game.presenter.ui.components.woodTint
+import uz.visionsystemscorp.puzzle15game.presenter.ui.components.SecondaryWoodTint
 import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.Bark
 import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.GoldLight
 import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.Puzzle15Theme
 import uz.visionsystemscorp.puzzle15game.presenter.ui.util.requestGoogleIdToken
-
-private val GuestTint = woodTint(saturation = 0.75f, brightness = 0.92f)
 
 @Composable
 fun LoginScreen(route: LoginRoute) {
@@ -118,7 +116,7 @@ private fun LoginContent(
             enabled = !uiState.isLoading,
             modifier = Modifier.place(95.dp, 728.dp, 200.dp, 90.dp).slideIn(delayMillis = 850),
             fontSize = 22.sp,
-            tint = GuestTint,
+            tint = SecondaryWoodTint,
         )
     }
 }

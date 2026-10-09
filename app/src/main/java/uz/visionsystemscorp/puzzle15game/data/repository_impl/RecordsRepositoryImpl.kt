@@ -34,4 +34,6 @@ class RecordsRepositoryImpl @Inject constructor(
 
     override fun observeStats(size: BoardSize): Flow<PersonalStats?> =
         gameResultDao.observeStats(size.dimension).map { it.toDomain() }
+
+    override suspend fun clearAll() = gameResultDao.deleteAll()
 }

@@ -69,6 +69,7 @@ private fun InfoContent(onEventDispatcher: (InfoContract.InfoEvent) -> Unit) {
     val telegramUrl = stringResource(R.string.info_telegram_url)
     val emailUrl = stringResource(R.string.info_email_url)
     val privacyUrl = stringResource(R.string.info_privacy_url)
+    val bio = stringResource(R.string.info_developer_bio)
 
     ScreenBackground(scrimAlpha = 0.45f) {
         TopSign(stringResource(R.string.info_title), fontSize = 30.sp)
@@ -95,15 +96,27 @@ private fun InfoContent(onEventDispatcher: (InfoContract.InfoEvent) -> Unit) {
                                 shadowColor = null,
                                 textAlign = TextAlign.Start,
                             )
-                            Text(stringResource(R.string.info_developer_bio), style = BodyStyle.copy(fontSize = 13.sp, color = Sand))
+                            if (bio.isNotBlank()) Text(bio, style = BodyStyle.copy(fontSize = 13.sp, color = Sand))
                         }
                     }
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        LinkButton(stringResource(R.string.info_telegram), Modifier.weight(1f)) { openUri(telegramUrl) }
-                        LinkButton(stringResource(R.string.info_email), Modifier.weight(1f)) { openUri(emailUrl) }
+                    if (telegramUrl.isNotBlank() || emailUrl.isNotBlank()) {
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            if (telegramUrl.isNotBlank()) {
+                                LinkButton(stringResource(R.string.info_telegram), Modifier.weight(1f)) { openUri(telegramUrl) }
+                            }
+                            if (emailUrl.isNotBlank()) {
+                                LinkButton(stringResource(R.string.info_email), Modifier.weight(1f)) { openUri(emailUrl) }
+                            }
+                        }
                     }
                 }
                 Spacer(Modifier.weight(1f))
+                Text(
+                    text = stringResource(R.string.info_credits),
+                    modifier = Modifier.fillMaxWidth(),
+                    style = LabelStyle.copy(fontSize = 11.sp, letterSpacing = 0.sp),
+                    textAlign = TextAlign.Center,
+                )
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                     Text(stringResource(R.string.info_version, BuildConfig.VERSION_NAME) + " · ", style = LabelStyle)
                     Text(

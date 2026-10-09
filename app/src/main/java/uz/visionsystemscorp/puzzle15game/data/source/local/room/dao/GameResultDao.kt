@@ -36,4 +36,7 @@ interface GameResultDao {
         """,
     )
     fun observeStats(dimension: Int): Flow<StatsRow>
+
+    @Query("DELETE FROM game_results")
+    suspend fun deleteAll()
 }

@@ -48,6 +48,11 @@ class ProfileRepositoryImpl @Inject constructor(
         sharedManager.onboardingDone = true
     }
 
+    override fun reset() {
+        sharedManager.onboardingDone = false
+        setLocalName("")
+    }
+
     private fun setLocalName(name: String) {
         sharedManager.playerName = name
         state.update { it.copy(name = name) }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -37,6 +38,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import kotlinx.coroutines.delay
 import uz.visionsystemscorp.puzzle15game.R
 import uz.visionsystemscorp.puzzle15game.presenter.ui.animation.blink
+import uz.visionsystemscorp.puzzle15game.presenter.ui.animation.dropIn
 import uz.visionsystemscorp.puzzle15game.presenter.ui.animation.floaty
 import uz.visionsystemscorp.puzzle15game.presenter.ui.animation.popIn
 import uz.visionsystemscorp.puzzle15game.presenter.ui.components.OutlinedText
@@ -67,35 +69,49 @@ private fun SplashContent(onEventDispatcher: (SplashContract.SplashEvent) -> Uni
         currentOnEvent(SplashContract.SplashEvent.LoadingFinished)
     }
 
-    ScreenBackground(scrimAlpha = 0.25f, showFireflies = true) {
-        Column(
+    ScreenBackground(background = R.drawable.bg_splash, scrimAlpha = 0.08f, showFireflies = true) {
+        // The title is painted on the hanging jungle sign, which drops in on its ropes.
+        Box(
             modifier = Modifier
-                .offset(y = 150.dp)
-                .fillMaxWidth()
-                .popIn(delayMillis = 200, initialScale = 0f, initialRotation = -10f),
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .place(0.dp, 0.dp, 390.dp, 327.dp)
+                .dropIn(),
         ) {
-            OutlinedText(
-                text = stringResource(R.string.splash_title_top),
-                fontSize = 46.sp,
-                letterSpacing = 4.sp,
-                outlineWidth = 3.dp,
-                shadowOffset = 6.dp,
+            Image(
+                painter = painterResource(R.drawable.sign_hanging),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillBounds,
             )
-            OutlinedText(
-                text = stringResource(R.string.splash_title_bottom),
-                modifier = Modifier.offset(y = (-8).dp),
-                fontSize = 110.sp,
-                color = Gold,
-                outlineWidth = 4.dp,
-                shadowOffset = 9.dp,
-            )
+            Column(
+                modifier = Modifier.place(70.dp, 172.dp, 262.dp, 120.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                OutlinedText(
+                    text = stringResource(R.string.splash_title_top),
+                    fontSize = 40.sp,
+                    letterSpacing = 3.sp,
+                    outlineWidth = 3.dp,
+                    shadowOffset = 4.dp,
+                )
+                OutlinedText(
+                    text = stringResource(R.string.splash_title_bottom),
+                    modifier = Modifier.offset(y = (-6).dp),
+                    fontSize = 64.sp,
+                    color = Gold,
+                    outlineWidth = 3.dp,
+                    shadowOffset = 6.dp,
+                )
+            }
         }
 
         Image(
             painter = painterResource(R.drawable.island_palm),
             contentDescription = null,
-            modifier = Modifier.place(75.dp, 330.dp, 240.dp, 281.dp).floaty(distance = 16.dp, periodMillis = 4000),
+            modifier = Modifier
+                .place(75.dp, 372.dp, 240.dp, 281.dp)
+                .popIn(delayMillis = 300, initialScale = 0.4f)
+                .floaty(distance = 16.dp, periodMillis = 4000),
             contentScale = ContentScale.FillBounds,
         )
 

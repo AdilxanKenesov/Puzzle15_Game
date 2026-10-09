@@ -121,3 +121,6 @@ fun woodTint(saturation: Float, brightness: Float): ColorFilter =
             timesAssign(ColorMatrix().apply { setToScale(brightness, brightness, brightness, 1f) })
         },
     )
+
+/** Duller wood for secondary buttons (guest sign-in, cancel). */
+val SecondaryWoodTint: ColorFilter = woodTint(saturation = 0.75f, brightness = 0.92f)

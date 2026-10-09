@@ -12,4 +12,6 @@ interface RecordsRepository {
     suspend fun getBest(size: BoardSize): BestResult?
 
     fun observeStats(size: BoardSize): Flow<PersonalStats?>
+
+    suspend fun clearAll()
 }

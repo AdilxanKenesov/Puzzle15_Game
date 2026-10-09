@@ -1,9 +1,6 @@
 package uz.visionsystemscorp.puzzle15game.domain.usecase.game
 
 import javax.inject.Inject
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 import uz.visionsystemscorp.puzzle15game.domain.game.GameEngine
 import uz.visionsystemscorp.puzzle15game.domain.model.BoardSize
 import uz.visionsystemscorp.puzzle15game.domain.model.GameResult
@@ -12,13 +9,11 @@ import uz.visionsystemscorp.puzzle15game.domain.repository.FeedbackRepository
 import uz.visionsystemscorp.puzzle15game.domain.repository.GameRepository
 import uz.visionsystemscorp.puzzle15game.domain.repository.LeaderboardRepository
 import uz.visionsystemscorp.puzzle15game.domain.repository.RecordsRepository
-import uz.visionsystemscorp.puzzle15game.domain.repository.SettingsRepository
 
 class GameUseCaseImpl @Inject constructor(
     private val engine: GameEngine,
     private val gameRepository: GameRepository,
     private val recordsRepository: RecordsRepository,
-    private val settingsRepository: SettingsRepository,
     private val feedbackRepository: FeedbackRepository,
     private val leaderboardRepository: LeaderboardRepository,
 ) : GameUseCase {
@@ -46,11 +41,6 @@ class GameUseCaseImpl @Inject constructor(
         if (isNewBest) leaderboardRepository.publishBest(size)
         return GameResult(size, moves, seconds, stars, isNewBest)
     }
-
-    override fun observeAudio(): Flow<Boolean> =
-        settingsRepository.settings.map { it.isAudioOn }.distinctUntilChanged()
-
-    override fun toggleAudio() = settingsRepository.update { it.withAudio(!it.isAudioOn) }
 
     override fun onTileMoved() = feedbackRepository.playMove()
 

@@ -17,4 +17,7 @@ interface ProfileRepository {
     fun isOnboardingDone(): Boolean
 
     fun setOnboardingDone()
+
+    /** Forgets the name and onboarding, as on a fresh install. */
+    fun reset()
 }

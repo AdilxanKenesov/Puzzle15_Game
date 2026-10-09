@@ -36,9 +36,6 @@ class GameViewModel @AssistedInject constructor(
             // A resumed game opens behind the pause overlay so the clock does not run unseen.
             reduce { state.withGame(game).copy(isPaused = game.moves > 0) }
         }
-        intent {
-            gameUseCase.observeAudio().collect { on -> reduce { state.copy(isAudioOn = on) } }
-        }
     }
 
     override fun onEventDispatcher(event: GameEvent) {
@@ -63,7 +60,6 @@ class GameViewModel @AssistedInject constructor(
                 reduce { state.copy(isPaused = true) }
                 saveProgress(state)
             }
-            GameEvent.AudioClicked -> gameUseCase.toggleAudio()
             GameEvent.HomeClicked -> direction.backToMain()
             GameEvent.SettingsClicked -> direction.openSettings()
         }

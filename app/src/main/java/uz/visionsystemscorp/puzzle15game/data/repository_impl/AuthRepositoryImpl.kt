@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -19,6 +20,7 @@ import uz.visionsystemscorp.puzzle15game.data.source.local.pref.SharedManager
 import uz.visionsystemscorp.puzzle15game.data.source.remote.firestore.FirestoreSource
 import uz.visionsystemscorp.puzzle15game.di.ApplicationScope
 import uz.visionsystemscorp.puzzle15game.domain.model.Account
+import uz.visionsystemscorp.puzzle15game.domain.model.AccountDeletion
 import uz.visionsystemscorp.puzzle15game.domain.model.BoardSize
 import uz.visionsystemscorp.puzzle15game.domain.repository.AuthRepository
 
@@ -64,6 +66,28 @@ class AuthRepositoryImpl @Inject constructor(
         auth.signOut()
         state.value = null
         runCatching { credentialManager.clearCredentialState(ClearCredentialStateRequest()) }
+    }
+
+    override suspend fun deleteAccount(googleIdToken: String?): AccountDeletion {
+        val user = auth.currentUser ?: return AccountDeletion.DELETED
+        try {
+            if (googleIdToken != null) user.reauthenticate(GoogleAuthProvider.getCredential(googleIdToken, null)).await()
+            // Cloud data first: the security rules only let the signed-in owner delete it.
+            firestore.deleteAccountData(user.uid, BoardSize.entries.map { it.dimension })
+            user.delete().await()
+        } catch (e: FirebaseAuthRecentLoginRequiredException) {
+            // A guest cannot sign in again; its cloud data is already gone, so dropping the session is enough.
+            if (!user.isAnonymous) return AccountDeletion.NEEDS_REAUTH
+        } catch (e: Exception) {
+            Log.w(TAG, "Account deletion failed", e)
+            return AccountDeletion.FAILED
+        }
+        // A fresh install starts with onboarding, not a restored guest.
+        sharedManager.signedOut = false
+        auth.signOut()
+        state.value = null
+        runCatching { credentialManager.clearCredentialState(ClearCredentialStateRequest()) }
+        return AccountDeletion.DELETED
     }
 
     override fun restoreSession() {

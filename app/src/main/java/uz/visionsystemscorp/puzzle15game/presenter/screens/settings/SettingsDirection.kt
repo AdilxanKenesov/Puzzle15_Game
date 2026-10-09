@@ -14,4 +14,6 @@ class SettingsDirection @Inject constructor(
     override fun openLogin() = navigator.navigateTo(LoginRoute(isOnboarding = false))
 
     override fun back() = navigator.back()
+
+    override fun restartOnboarding() = navigator.replaceAll(LoginRoute(isOnboarding = true))
 }

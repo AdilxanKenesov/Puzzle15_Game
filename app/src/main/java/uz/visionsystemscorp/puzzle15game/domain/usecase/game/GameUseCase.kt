@@ -1,6 +1,5 @@
 package uz.visionsystemscorp.puzzle15game.domain.usecase.game
 
-import kotlinx.coroutines.flow.Flow
 import uz.visionsystemscorp.puzzle15game.domain.model.BoardSize
 import uz.visionsystemscorp.puzzle15game.domain.model.GameResult
 import uz.visionsystemscorp.puzzle15game.domain.model.SavedGame
@@ -16,10 +15,6 @@ interface GameUseCase {
 
     /** Records the finished game (publishing it if it is a new best), clears its saved progress and plays the win feedback. */
     suspend fun finish(size: BoardSize, moves: Int, seconds: Long): GameResult
-
-    fun observeAudio(): Flow<Boolean>
-
-    fun toggleAudio()
 
     fun onTileMoved()
 }

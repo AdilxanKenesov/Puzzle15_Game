@@ -10,4 +10,6 @@ interface GameRepository {
     suspend fun save(game: SavedGame)
 
     suspend fun clear(size: BoardSize)
+
+    suspend fun clearAll()
 }

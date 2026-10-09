@@ -1,11 +1,6 @@
 package uz.visionsystemscorp.puzzle15game.presenter.screens.game
 
-import uz.visionsystemscorp.puzzle15game.presenter.ui.components.DesignFrame
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,7 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,15 +32,14 @@ import uz.visionsystemscorp.puzzle15game.domain.model.BoardSize
 import uz.visionsystemscorp.puzzle15game.presenter.ui.animation.popIn
 import uz.visionsystemscorp.puzzle15game.presenter.ui.animation.pulse
 import uz.visionsystemscorp.puzzle15game.presenter.ui.animation.swing
+import uz.visionsystemscorp.puzzle15game.presenter.ui.components.ArtboardOverlay
 import uz.visionsystemscorp.puzzle15game.presenter.ui.components.BoardSizeBadge
 import uz.visionsystemscorp.puzzle15game.presenter.ui.components.ImageIconButton
 import uz.visionsystemscorp.puzzle15game.presenter.ui.components.OutlinedText
 import uz.visionsystemscorp.puzzle15game.presenter.ui.components.ScreenBackground
-import uz.visionsystemscorp.puzzle15game.presenter.ui.components.SoundButton
 import uz.visionsystemscorp.puzzle15game.presenter.ui.components.StatBox
 import uz.visionsystemscorp.puzzle15game.presenter.ui.components.WoodButton
 import uz.visionsystemscorp.puzzle15game.presenter.ui.components.place
-import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.JungleScrim
 import uz.visionsystemscorp.puzzle15game.presenter.ui.theme.Puzzle15Theme
 import uz.visionsystemscorp.puzzle15game.presenter.ui.util.formatElapsed
 
@@ -129,30 +122,18 @@ private fun GameContent(
             contentScale = ContentScale.FillBounds,
         )
 
-        Row(
-            modifier = Modifier.offset(y = 610.dp).fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(22.dp, Alignment.CenterHorizontally),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            ImageIconButton(R.drawable.btn_restart, stringResource(R.string.cd_shuffle), { onEvent(GameContract.GameEvent.ShuffleClicked) }, Modifier.size(76.dp, 75.dp))
-            SoundButton(uiState.isAudioOn, { onEvent(GameContract.GameEvent.AudioClicked) }, Modifier.size(76.dp, 69.dp))
-        }
+        ImageIconButton(
+            icon = R.drawable.btn_restart,
+            contentDescription = stringResource(R.string.cd_shuffle),
+            onClick = { onEvent(GameContract.GameEvent.ShuffleClicked) },
+            modifier = Modifier.place(157.dp, 606.dp, 76.dp, 75.dp),
+        )
     }
 }
 
-/** Dims the whole window, status and navigation bars included; the controls sit on their own artboard. */
 @Composable
 private fun PauseOverlay(onResume: () -> Unit, onHome: () -> Unit, onSettings: () -> Unit) {
-    DesignFrame(
-        Modifier
-            .fillMaxSize()
-            .background(JungleScrim.copy(alpha = 0.65f))
-            // Swallow taps so the board underneath stays untouchable.
-            .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {}
-            .safeDrawingPadding(),
-    ) {
-        PauseControls(onResume, onHome, onSettings)
-    }
+    ArtboardOverlay { PauseControls(onResume, onHome, onSettings) }
 }
 
 @Composable

@@ -16,4 +16,7 @@ interface SavedGameDao {
 
     @Query("DELETE FROM saved_games WHERE board_dimension = :dimension")
     suspend fun delete(dimension: Int)
+
+    @Query("DELETE FROM saved_games")
+    suspend fun deleteAll()
 }
