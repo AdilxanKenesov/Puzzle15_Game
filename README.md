@@ -149,24 +149,6 @@ cd Puzzle15_Game
 
 `app/google-services.json` is committed, so a debug build talks to the project's Firebase. To use your own Firebase project, replace that file and follow [Firebase setup](#firebase-setup).
 
-### Release signing
-
-Release builds are signed with the upload key from `keystore.properties` (not committed) or from environment variables on CI:
-
-```properties
-# keystore.properties (project root)
-storeFile=../keystore/puzzle15-upload.jks
-storePassword=…
-keyAlias=puzzle15-upload
-keyPassword=…
-```
-
-```bash
-./gradlew bundleRelease   # app/build/outputs/bundle/release/app-release.aab
-```
-
-Without a keystore, `assembleRelease` still builds an unsigned APK, which is useful for checking R8.
-
 ## Firebase setup
 
 1. **Authentication → Sign-in method:** enable **Google** and **Anonymous**.
