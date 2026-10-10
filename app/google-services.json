@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "808949600959-hqo8u2r8ld71ot852o54svcg9una4sf4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "uz.visionsystemscorp.puzzle15game",
+            "certificate_hash": "3d55c12cac2794cfa4fde7da46ac40d489334620"
+          }
+        },
+        {
           "client_id": "808949600959-r3qded9qevcv0kpfl4efg4fpq2is07v3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
